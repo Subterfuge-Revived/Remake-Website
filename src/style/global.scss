@@ -1,0 +1,11 @@
+$body-bg: black;
+
+// @import '~bootstrap/scss/bootstrap.scss';
+
+// Imports all of the SCSS modules
+@import "modules/colors";
+
+// Imports bootstrap styles.
+@import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+// @import '~bootstrap';
+// @import '~bootstrap-vue';

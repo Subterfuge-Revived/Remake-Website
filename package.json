@@ -1,0 +1,95 @@
+{
+  "name": "Subterfuge-Remake-Web",
+  "version": "0.0.1",
+  "license": "MIT",
+  "contributors": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Subterfuge-Revived/Remake-Website.git"
+  },
+  "scripts": {
+    "dev": "webpack-dev-server --hot --host 0.0.0.0 --port 80",
+    "test": "cross-env NODE_ENV=test nyc mocha-webpack test/**/**.test.js --require test/testSetup.js",
+    "build": "webpack --progress --hide-modules",
+    "docs": "vuese gen && vuese serve --open"
+  },
+  "babel": {
+    "env": {
+      "test": {
+        "plugins": [
+          "istanbul"
+        ]
+      }
+    }
+  },
+  "nyc": {
+    "exclude": [
+      "/node_modules/*",
+      "webpack.config.js",
+      "tests/*"
+    ],
+    "require": [
+      "@babel/register"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "sourceMap": false,
+    "instrument": false
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "dependencies": {
+    "@vuese/cli": "^2.10.0",
+    "axios": "^0.18.0",
+    "bootstrap": "^4.5.0",
+    "bootstrap-vue": "^2.14.0",
+    "dompurify": "1.0.9",
+    "dotenv": "^6.2.0",
+    "jquery": "^3.3.1",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "validator": "^10.11.0",
+    "vue": "^2.6.7",
+    "vue-awesome": "4.0.2",
+    "vue-headful": "^2.0.1",
+    "vue-router": "3.0.1",
+    "vuex": "3.0.1",
+    "vuex-persistedstate": "^2.5.4"
+  },
+  "devDependencies": {
+    "@babel/core": "7.1.2",
+    "@babel/register": "^7.0.0",
+    "@vue/test-utils": "1.0.0-beta.20",
+    "babel-core": "6.26.0",
+    "babel-loader": "7.1.2",
+    "babel-plugin-istanbul": "5.1.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "1.6.0",
+    "babel-preset-stage-3": "^6.24.1",
+    "chai": "4.1.2",
+    "cross-env": "5.0.5",
+    "css-loader": "^0.28.11",
+    "file-loader": "^1.1.11",
+    "jsdom": "11.11.0",
+    "jsdom-global": "^3.0.2",
+    "mini-css-extract-plugin": "^0.9.0",
+    "mocha": "^5.2.0",
+    "mocha-webpack": "^1.1.0",
+    "node-sass": "^4.14.1",
+    "nyc": "^13.2.0",
+    "sass": "^1.26.5",
+    "sass-loader": "^7.3.1",
+    "sinon": "6.1.3",
+    "style-loader": "^0.21.0",
+    "typescript": "^2.9.2",
+    "vue-loader": "^13.0.5",
+    "vue-template-compiler": "^2.6.7",
+    "webpack": "3.6.0",
+    "webpack-dev-server": "2.9.1"
+  }
+}
