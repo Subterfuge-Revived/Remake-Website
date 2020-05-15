@@ -1,6 +1,7 @@
 <template>
     <b-card>this is a card
         <b-button variant="primary">Button</b-button>
+        {{ $t('hello') }}
     </b-card>
 </template>
 

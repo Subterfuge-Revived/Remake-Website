@@ -61,6 +61,7 @@ The following libraries have been installed. These links are references to the d
 [Sass](https://sass-lang.com/guide) - Dynamic CSS styles
 [Vue](https://vuejs.org/v2/guide/) - The main javascript framework
 [Vue-Awesome](https://github.com/Justineo/vue-awesome) - Vue font-awesome icon library
+[Vue-i18n](https://kazupon.github.io/vue-i18n/started.html#html) - Internationalization/Translation package
 [Vue-Router](https://router.vuejs.org/) - Self explanitory for SPA
 [Vuese](https://vuese.org/cli/#quick-start) - Automatic Vue component references 
 [Vuex](https://vuex.vuejs.org/) - Vue state manager

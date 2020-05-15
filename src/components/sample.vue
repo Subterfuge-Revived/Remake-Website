@@ -1,6 +1,6 @@
 <template>
     <div>
-
+        {{ $t('message.greeting') }}
     </div>
 </template>
 
