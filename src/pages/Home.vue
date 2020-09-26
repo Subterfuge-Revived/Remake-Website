@@ -1,16 +1,11 @@
 <template>
     <div>
-        <navbar/>
-        <b-jumbotron class="sea-bg">
-            <div class="text-center">
-                <p class="appNameHeader"> Welcome to {{ $t('appName') }} </p>
-                <p class="headerText"> Prepare to get betrayed </p>
-            </div>
-
-            <b-container class="mt-50 wide-30 descriptionText text-center">
-                <p>Create alliances, outplay your enemies, and backstab your friends. {{ $t('appName') }} combines strategy and social engineering as you fight your way to victory.</p>
-            </b-container>
-
+        <Hero class="sea-bg">
+            <template slot="title">Welcome to {{ $t('appName') }}</template>
+            <template slot="header">Prepare to get betrayed</template>
+            <template slot="description">
+                <p class="mt-50">Create alliances, outplay your enemies, and backstab your friends. {{ $t('appName') }} combines strategy and social engineering as you fight your way to victory.</p>
+            </template>
             <b-container class="download-border mt-40">
                 <h4 class="p-3 text-center">Currently under development!</h4>
                 <p class="descriptionText text-center"> Expected launch: Unknown </p>
@@ -26,14 +21,15 @@
                     </b-col>
                 </b-row>
             </b-container>
-
-        </b-jumbotron>
+        </Hero>
     </div>
 </template>
 
 <script>
 
+import Hero from "../components/global/Hero";
 import navbar from "../components/global/navbar.vue";
+
 import iosStore from "../assets/ios_store.png";
 import playStore from "../assets/play_store.png";
 import steamStore from "../assets/steam_store.png";
@@ -42,7 +38,7 @@ import sea from "../assets/sea.png";
 // This is the default homepage component.
 // Example usage: `<home/>`
 export default {
-    components: { navbar },
+    components: { navbar, Hero },
     props: {
         // This is a test vuese comment.
         test: {

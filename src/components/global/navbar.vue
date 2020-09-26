@@ -1,14 +1,14 @@
 <template>
   <b-navbar class="p-3" toggleable="lg" type="dark" variant="dark">
-    <b-navbar-brand href="#">{{ $t('appName') }}</b-navbar-brand>
+    <b-navbar-brand href="/">{{ $t('appName') }}</b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item href="#">About</b-nav-item>
-        <b-nav-item href="#">Get Involved!</b-nav-item>
-        <b-nav-item href="#">Dev-Blog</b-nav-item>
+        <b-nav-item href="/about">About</b-nav-item>
+        <b-nav-item href="/participate">Get Involved!</b-nav-item>
+        <b-nav-item href="/blog">Dev-Blog</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
@@ -30,7 +30,7 @@
           <b-dropdown-item href="#">Profile</b-dropdown-item>
           <b-dropdown-item href="#">Sign Out</b-dropdown-item>
         </b-nav-item-dropdown>
-        <b-button variant="dark" v-else>Login</b-button>
+        <b-button variant="dark" v-else href="/login">Login</b-button>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
