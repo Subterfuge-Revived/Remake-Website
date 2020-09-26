@@ -15,7 +15,7 @@
       <b-navbar-nav class="ml-auto">
         
         <b-nav-item href="https://github.com/Subterfuge-Revived" target="_blank">
-          <img style="height: 30px;" src="../../assets/github.png"/>
+            <img style="height: 30px;" src="../../assets/github.png"/>
         </b-nav-item>
 
         <b-nav-item-dropdown v-bind:text="'Lang: ' + $store.getters.locale.toUpperCase()" right>
@@ -25,10 +25,12 @@
         <b-nav-item-dropdown right v-if="$store.state.user.loggedIn">
           <!-- Using 'button-content' slot -->
           <template v-slot:button-content>
-            <em>User</em>
+              <img style="height: 30px;" src="../../assets/user.png"/>
           </template>
-          <b-dropdown-item href="#">Profile</b-dropdown-item>
-          <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+
+          <b-dropdown-item disabled>Welcome, {{ $store.getters.loggedInUser }}!</b-dropdown-item>
+          <b-dropdown-item href="#">Account</b-dropdown-item>
+          <b-dropdown-item href="/" @click="signout()">Sign Out</b-dropdown-item>
         </b-nav-item-dropdown>
         <b-button variant="dark" v-else href="/login">Login</b-button>
       </b-navbar-nav>
@@ -39,6 +41,7 @@
 <script>
 
 import github from "../../assets/github.png";
+import user from "../../assets/user.png";
 
 export default {
     name: 'navbar',
@@ -47,6 +50,9 @@ export default {
     methods: {
         updateLocale: (key) => {
             vm.$store.commit('setLocale', key);
+        },
+        signout() {
+          vm.$store.commit('logout');
         }
     }
 }
