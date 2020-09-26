@@ -24,3 +24,4 @@ yarn-error.log*
 # testing
 coverage/*
 .nyc-output/*
+.nyc_output/*

@@ -36,7 +36,7 @@
                 <b-row>
                     <b-col>
                         <img class="rounded-circle profileBorder" src="https://cdn.discordapp.com/avatars/150708089560104961/3397fae713f5b4733e8ee6ebc19658c6.png?size=256" aria-hidden="true">
-                        <h3>Nivero</h3>
+                        <h3>Niverio</h3>
                         <p>Game Design</p>
                     </b-col>
                     <b-col>
