@@ -1,8 +1,10 @@
 <template>
-  <div id="app">
-    <router-view id="view"/>
-    <footer id="footer"/>
-  </div>
+  <body>
+    <div id="app">
+      <router-view id="view"/>
+      <footer id="footer"/>
+    </div>
+  </body>
 </template>
 
 <script>
