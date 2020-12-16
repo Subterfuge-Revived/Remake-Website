@@ -25,9 +25,11 @@ const i18n = new VueI18n({
 /**
  * CREATING VUE
  */
-new Vue({
+let vm = new Vue({
   router,
   store,
   i18n,
   render: h => h(App)
 }).$mount('#app');
+
+global.vm = vm;
