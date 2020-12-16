@@ -13,51 +13,51 @@
             <b-container class="text-center p-4">
                 <b-row>
                     <b-col>
-                        <img class="rounded-circle profileBorder" src="https://cdn.discordapp.com/avatars/87985104596533248/a_30a0ecc809e4a20b1b8539509e6ec2aa.gif?size=256" aria-hidden="true">
+                        <img class="rounded-circle profileBorder" src="../assets/contributors/chip.gif" aria-hidden="true">
                         <h3>Chipmunk</h3>
                         <p>Supervisor</p>
                     </b-col>
                     <b-col>
-                        <img class="rounded-circle profileBorder" src="https://cdn.discordapp.com/avatars/448561928521121794/cce7b913a07a4e3f0615a4e81282041f.png?size=256" aria-hidden="true">
+                        <img class="rounded-circle profileBorder" src="../assets/contributors/lyds.png" aria-hidden="true">
                         <h3>Lyds</h3>
                         <p>Community Engagement</p>
                     </b-col>
                     <b-col>
-                        <img class="rounded-circle profileBorder" src="https://cdn.discordapp.com/avatars/239570647116677120/6c0294e2fdce35f115c6c7e5ad10dc26.png?size=256" aria-hidden="true">
+                        <img class="rounded-circle profileBorder" src="../assets/contributors/riot.png" aria-hidden="true">
                         <h3>R10t--</h3>
                         <p>Systems Design / Developer</p>
                     </b-col>
                     <b-col>
-                        <img class="rounded-circle profileBorder" src="https://cdn.discordapp.com/avatars/209655323751874561/5aaf2225b24f329809235c84f8e06146.png?size=256" aria-hidden="true">
+                        <img class="rounded-circle profileBorder" src="../assets/contributors/aluce.png" aria-hidden="true">
                         <h3>Aluce</h3>
                         <p>Developer</p>
                     </b-col>
                 </b-row>
                 <b-row>
                     <b-col>
-                        <img class="rounded-circle profileBorder" src="https://cdn.discordapp.com/avatars/150708089560104961/3397fae713f5b4733e8ee6ebc19658c6.png?size=256" aria-hidden="true">
+                        <img class="rounded-circle profileBorder" src="../assets/contributors/niverio.png" aria-hidden="true">
                         <h3>Niverio</h3>
                         <p>Game Design</p>
                     </b-col>
                     <b-col>
-                        <img class="rounded-circle profileBorder" src="https://cdn.discordapp.com/avatars/228298213159862272/b22b675f8f5ff44cc414859359e4e5c9.png?size=256" aria-hidden="true">
+                        <img class="rounded-circle profileBorder" src="../assets/contributors/noj.png" aria-hidden="true">
                         <h3>Nojo</h3>
                         <p>Project Lead</p>
                     </b-col>
                     <b-col>
-                        <img class="rounded-circle profileBorder" src="https://cdn.discordapp.com/avatars/541318134699786272/be402b3bb1269123edc6888f1ca4e9dd.png?size=256" aria-hidden="true">
+                        <img class="rounded-circle profileBorder" src="../assets/contributors/tw2000.png" aria-hidden="true">
                         <h3>TW2000</h3>
                         <p>Developer</p>
                     </b-col>
                     <b-col>
-                        <img class="rounded-circle profileBorder" src="https://cdn.discordapp.com/avatars/315517159902019585/e517b27e1242a9ad1bda6c31e3e7820e.png?size=256" aria-hidden="true">
+                        <img class="rounded-circle profileBorder" src="../assets/contributors/xatev.png" aria-hidden="true">
                         <h3>XATEV</h3>
                         <p>Developer</p>
                     </b-col>
                 </b-row>
                 <b-row>
                     <b-col>
-                        <img class="rounded-circle profileBorder" src="https://cdn.discordapp.com/avatars/304456817222746112/3e3aa1e9b085338df1ad562b294e9218.webp?size=256" aria-hidden="true">
+                        <img class="rounded-circle profileBorder" src="../assets/contributors/cakemix.png" aria-hidden="true">
                         <h3>CakeMixV3</h3>
                         <p>Sound Art</p>
                     </b-col>
@@ -70,6 +70,16 @@
 <script>
 
 import Hero from "../components/global/Hero";
+
+import aluce from "../assets/contributors/aluce.png";
+import cakemix from "../assets/contributors/cakemix.png";
+import chip from "../assets/contributors/chip.gif";
+import lyds from "../assets/contributors/lyds.png";
+import niverio from "../assets/contributors/niverio.png";
+import noj from "../assets/contributors/noj.png";
+import riot from "../assets/contributors/riot.png";
+import tw from "../assets/contributors/tw2000.png";
+import xatev from "../assets/contributors/xatev.png";
 
 export default {
     components: { Hero }

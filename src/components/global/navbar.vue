@@ -13,6 +13,9 @@
 
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
+          <b-nav-item href="https://discord.gg/vYRfPSQ" target="_blank">
+            <img style="height: 30px;" src="../../assets/discord.png"/>
+        </b-nav-item>
         
         <b-nav-item href="https://github.com/Subterfuge-Revived" target="_blank">
             <img style="height: 30px;" src="../../assets/github.png"/>
@@ -41,6 +44,7 @@
 <script>
 
 import github from "../../assets/github.png";
+import discord from "../../assets/discord.png";
 import user from "../../assets/user.png";
 
 export default {
