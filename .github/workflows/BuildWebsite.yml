@@ -7,6 +7,8 @@ name: Deploy Website
 on:
   push:
     branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -28,6 +30,8 @@ jobs:
       run: npm install
     - name: Build website
       run: npm run build
+    - name: Make out directory
+      run: mkdir out
     - name: Copy index
       uses: canastro/copy-file-action@master
       with:
