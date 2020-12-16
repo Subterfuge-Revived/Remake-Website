@@ -45,7 +45,7 @@
                         <p>Project Lead</p>
                     </b-col>
                     <b-col>
-                        <img class="rounded-circle profileBorder" src="../assets/contributors/tw2000.png" aria-hidden="true">
+                        <img class="rounded-circle profileBorder" src="../assets/contributors/TW2000.png" aria-hidden="true">
                         <h3>TW2000</h3>
                         <p>Developer</p>
                     </b-col>
@@ -78,7 +78,7 @@ import lyds from "../assets/contributors/lyds.png";
 import niverio from "../assets/contributors/niverio.png";
 import noj from "../assets/contributors/noj.png";
 import riot from "../assets/contributors/riot.png";
-import tw from "../assets/contributors/tw2000.png";
+import tw from "../assets/contributors/TW2000.png";
 import xatev from "../assets/contributors/xatev.png";
 
 export default {
