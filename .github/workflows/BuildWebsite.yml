@@ -32,6 +32,8 @@ jobs:
       run: npm run build
     - name: Make out directory
       run: mkdir out
+      - name: Make out dist directory
+      run: mkdir out/dist
     - name: Copy index
       uses: canastro/copy-file-action@master
       with:
