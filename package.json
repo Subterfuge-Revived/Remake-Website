@@ -53,7 +53,7 @@
     "jquery": "^3.3.1",
     "lodash": "^4.17.20",
     "moment": "^2.24.0",
-    "validator": "^10.11.0",
+    "validator": "^13.7.0",
     "vue": "^2.6.7",
     "vue-awesome": "4.0.2",
     "vue-headful": "^2.0.1",
