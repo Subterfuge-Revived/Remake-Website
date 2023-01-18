@@ -6,6 +6,8 @@ import About from '../pages/About.vue';
 import DevBlog from '../pages/DevBlog.vue';
 import GetInvolved from '../pages/GetInvolved.vue';
 import Login from '../pages/Login.vue';
+import Account from '../pages/Account.vue';
+import Admin from '../pages/Admin.vue';
 
 Vue.use(VueRouter);
 
@@ -37,6 +39,16 @@ const router = new VueRouter({
       name: 'login',
       component: Login
     },
+    {
+      path: '/account',
+      name: 'account',
+      component: Account
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: Admin
+    }
   ]
 });
 

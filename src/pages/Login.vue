@@ -28,15 +28,20 @@
                 </b-container>
             </b-container>
         </Hero>
+        <b-container>
+            <h2>No account? Download the app!</h2>
+            <app-download></app-download>
+        </b-container>
     </div>
 </template>
 
 <script>
 import Hero from "../components/global/Hero";
+import AppDownload from "../components/global/AppDownload.vue";
 import api from "../classes/Api";
 
 export default {
-    components: { Hero },
+    components: { Hero, AppDownload },
     data() {
         return {
             username: '',
@@ -50,12 +55,16 @@ export default {
             api.tryLogin(this.username, this.password).then(
                 (response) => {
                     if(response.status == 200 && response.data.token != null) {
-                        self.$store.commit('login', response.data);
-                        self.$router.push({ path: '/' })
+                        localStorage.setItem('user', JSON.stringify(response.data.user));
+                        localStorage.setItem('access_token', response.data.token);
                     }
+                },
+                (fail) => {
+                    console.error(fail)
                 }
             ).catch(
                 (e) => {
+                    console.error(e)
                     self.isError = true;
                 }
             );

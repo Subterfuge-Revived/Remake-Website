@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import router from './router/router.js';
-import store from './store/store.js';
 import App from './App.vue';
 import BootstrapVue from 'bootstrap-vue';
 import vueHeadful from 'vue-headful';
@@ -17,8 +16,14 @@ Vue.component('v-icon', Icon)
 Vue.component('vue-headful', vueHeadful);
 Vue.use(BootstrapVue);
 
+var lang = localStorage.getItem('lang');
+if(lang == null) {
+  localStorage.setItem('lang', 'en');
+  lang = 'en';
+}
+
 const i18n = new VueI18n({
-    locale: store.state.lang.locale,
+    locale: lang,
     messages,
 })
 
@@ -27,7 +32,6 @@ const i18n = new VueI18n({
  */
 let vm = new Vue({
   router,
-  store,
   i18n,
   render: h => h(App)
 }).$mount('#app');

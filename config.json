@@ -1,9 +1,11 @@
 {
-    "development": {
-      "id": "development"
-    },
-    "production": {
-      "id": "production"
-    },
-    "environment": "development"
-  }
+  "development": {
+    "id": "development",
+    "serverUrl": "localhost:5295"
+  },
+  "production": {
+    "id": "production",
+    "serverUrl": "server:8080"
+  },
+  "environment": "development"
+}

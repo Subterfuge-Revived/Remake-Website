@@ -11,7 +11,8 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(envConfig.environment)
+      'process.env.NODE_ENV': JSON.stringify(envConfig.environment),
+      CONFIG: JSON.stringify(envConfig[envConfig.environment])
     })
   ],
   module: {
@@ -33,7 +34,7 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(png|jpe?g|gif|svg)$/,
+        test: /\.(png|jpe?g|gif|svg|jpg)$/,
         use: [
           {
             loader: 'file-loader',
