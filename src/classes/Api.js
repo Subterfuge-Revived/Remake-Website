@@ -55,8 +55,77 @@ let api = {
             headers: {
               Authorization: 'Bearer ' + token //the token is a variable which holds the token
             }
-           })
+        });
     },
+    getServerLogs(formQueryData) {
+        var url = `http://${CONFIG.serverUrl}/api/admin/serverLog?`
+        var token = localStorage.getItem('subterfuge_access_token');
+
+        if(formQueryData.usernameSearch != "" && formQueryData.usernameSearch != undefined) {
+            url += `Username=${formQueryData.usernameSearch}&`
+        }
+
+        if(formQueryData.userIdSearch != "") {
+            url += `UserId=${formQueryData.userIdSearch}&`
+        }
+
+        if(formQueryData.httpMethod != "") {
+            url += `HttpMethod=${formQueryData.httpMethod}&`
+        }
+
+        if(formQueryData.RequestUrl != "") {
+            url += `RequestUrl=${formQueryData.RequestUrl}&`
+        }
+
+        if(formQueryData.pagination != "") {
+            url += `Pagination=${formQueryData.pagination}&`
+        }
+
+        return Axios.get(url, {
+            headers: {
+              Authorization: 'Bearer ' + token //the token is a variable which holds the token
+            }
+        });
+    },
+    getServerExceptions(formQueryData) {
+        var url = `http://${CONFIG.serverUrl}/api/admin/exceptions?`
+        var token = localStorage.getItem('subterfuge_access_token');
+
+        if(formQueryData.usernameSearch != "" && formQueryData.usernameSearch != undefined) {
+            url += `Username=${formQueryData.usernameSearch}&`
+        }
+
+        if(formQueryData.userIdSearch != "") {
+            url += `UserId=${formQueryData.userIdSearch}&`
+        }
+
+        if(formQueryData.httpMethod != "") {
+            url += `HttpMethod=${formQueryData.httpMethod}&`
+        }
+
+        if(formQueryData.RequestUrl != "") {
+            url += `RequestUrl=${formQueryData.RequestUrl}&`
+        }
+
+        if(formQueryData.pagination != "") {
+            url += `Pagination=${formQueryData.pagination}&`
+        }
+
+        if(formQueryData.ExceptionSource != "") {
+            url += `ExceptionSource=${formQueryData.ExceptionSource}&`
+        }
+
+        if(formQueryData.RemoteIpAddress != "") {
+            url += `RemoteIpAddress=${formQueryData.RemoteIpAddress}&`
+        }
+
+        return Axios.get(url, {
+            headers: {
+              Authorization: 'Bearer ' + token //the token is a variable which holds the token
+            }
+        });
+
+    }
 }
 
 export default api;
