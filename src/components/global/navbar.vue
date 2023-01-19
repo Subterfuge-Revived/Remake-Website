@@ -32,7 +32,7 @@
           </template>
 
           <b-dropdown-item disabled>Welcome, {{ user.username }}!</b-dropdown-item>
-          <b-dropdown-item href="/account">Account</b-dropdown-item>
+          <b-dropdown-item :href="'/account?id=' + user.id">Account</b-dropdown-item>
           <b-dropdown-item v-if="isAdmin()" href="/admin">Admin Portal</b-dropdown-item>
           <b-dropdown-item href="/" @click="signout()">Sign Out</b-dropdown-item>
         </b-nav-item-dropdown>

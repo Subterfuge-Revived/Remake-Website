@@ -49,241 +49,260 @@
             </b-row>
         </b-container>
 
-        <b-container class="p-5">
+        <b-container>
+        <b-card class="p-5">
             <b-nav tabs>
                 <b-nav-item :active="isActive('users')" @click="setTab('users')"><h3>Users</h3></b-nav-item>
                 <b-nav-item :active="isActive('lobbies')" @click="setTab('lobbies')"><h3>Game Lobbies</h3></b-nav-item>
-                <b-nav-item :active="isActive('server-logs')" @click="setTab('server-logs')"><h3>Server Logs</h3></b-nav-item>
+                <b-nav-item :active="isActive('server-logs')" @click="setTab('server-logs')"><h3>Activity Logs</h3></b-nav-item>
                 <b-nav-item :active="isActive('server-exceptions')" @click="setTab('server-exceptions')"><h3>Server Exceptions</h3></b-nav-item>
             </b-nav>
 
-            <b-container class="m-5" v-if="selectedTab == 'users'">
-                <b-card style="color: black" title="Search Users">
-                    <b-form class="m-5">
-                        <b-row class="m-5">
-                            <b-col>
-                                <b-form-group label="Username">
-                                    <b-form-input v-model="userQuery.usernameSearch" placeholder="Username Search"></b-form-input>
-                                </b-form-group>
-                            </b-col>
-                            <b-col>
-                                <b-form-group label="Email">
-                                    <b-form-input v-model="userQuery.emailSearch" placeholder="Email Search"></b-form-input>
-                                </b-form-group>
-                            </b-col>
-                            <b-col>
-                                <b-form-group label="Device Id">
-                                    <b-form-input v-model="userQuery.deviceIdSearch" placeholder="Device Id Search"></b-form-input>
-                                </b-form-group>
-                            </b-col>
-                        </b-row>
-                        <b-row class="m-5">
-                            <b-col>
-                                <b-form-group label="User ID">
-                                    <b-form-input v-model="userQuery.userIdSearch" placeholder="User ID"></b-form-input>
-                                </b-form-group>
-                            </b-col>
-                            <b-col>
-                                <b-form-group label="Has Role">
-                                    <b-form-select v-model="userQuery.hasRole" :options="roleOptions"></b-form-select>
-                                </b-form-group>
-                            </b-col>
-                            <b-col>
-                                <b-form-checkbox v-model="userQuery.isBanned">Is Banned?</b-form-checkbox>
-                            </b-col>
-                        </b-row>
-                        <b-button variant="success" @click="queryUsers">Query</b-button>
-                    </b-form>
-
-                    <b-table :items="userResponse"></b-table>
-            </b-card>
-        </b-container>
-
-        <b-container v-if="selectedTab == 'lobbies'">
-            Lobby List Here
-        </b-container>
-
-        <b-container v-if="selectedTab == 'server-logs'">
-            <b-card style="color: black" title="Search Server Logs">
-                    <b-form class="m-5">
-                        <b-row class="m-5">
-                            <b-col>
-                                <b-form-group label="Username">
-                                    <b-form-input v-model="serverLogQuery.usernameSearch" placeholder="Username Search"></b-form-input>
-                                </b-form-group>
-                            </b-col>
-                            <b-col>
-                                <b-form-group label="User Id">
-                                    <b-form-input v-model="serverLogQuery.userIdSearch" placeholder="User ID Search"></b-form-input>
-                                </b-form-group>
-                            </b-col>
-                            <b-col>
-                                <b-form-group label="Http Method">
-                                    <b-form-input v-model="serverLogQuery.httpMethod" placeholder="Http Method Search"></b-form-input>
-                                </b-form-group>
-                            </b-col>
-                        </b-row>
-                        <b-row class="m-5">
-                            <b-col>
-                                <b-form-group label="Request URL">
-                                    <b-form-input v-model="serverLogQuery.RequestUrl" placeholder="Request URL Search"></b-form-input>
-                                </b-form-group>
-                            </b-col>
-                            <b-col>
-                                <b-form-group label="Page Number (50 per page)">
-                                    <b-form-input v-model="serverLogQuery.pagination" placeholder="Page Number"></b-form-input>
-                                </b-form-group>
-                            </b-col>
-                        </b-row>
-                        <b-button variant="success" @click="queryServerLogs">Query</b-button>
-                    </b-form>
-
-                    <b-table :items="serverLogs"></b-table>
-            </b-card>
-        </b-container>
-
-        <b-container v-if="selectedTab == 'server-exceptions'">
-            <b-card style="color: black" title="Search Server Exceptions">
-                    <b-form class="m-5">
-                        <b-row class="m-5">
-                            <b-col>
-                                <b-form-group label="Username">
-                                    <b-form-input v-model="serverLogQuery.usernameSearch" placeholder="Username Search"></b-form-input>
-                                </b-form-group>
-                            </b-col>
-                            <b-col>
-                                <b-form-group label="User Id">
-                                    <b-form-input v-model="serverLogQuery.userIdSearch" placeholder="User ID Search"></b-form-input>
-                                </b-form-group>
-                            </b-col>
-                            <b-col>
-                                <b-form-group label="Http Method">
-                                    <b-form-input v-model="serverLogQuery.httpMethod" placeholder="Http Method Search"></b-form-input>
-                                </b-form-group>
-                            </b-col>
-                        </b-row>
-                        <b-row class="m-5">
-                            <b-col>
-                                <b-form-group label="Exception Source">
-                                    <b-form-input v-model="serverLogQuery.ExceptionSource" placeholder="Exception Source"></b-form-input>
-                                </b-form-group>
-                            </b-col>
-                            <b-col>
-                                <b-form-group label="Remote IP">
-                                    <b-form-input v-model="serverLogQuery.RemoteIpAddress" placeholder="Remote IP"></b-form-input>
-                                </b-form-group>
-                            </b-col>
-                            <b-col>
-                                <b-form-group label="Request URL">
-                                    <b-form-input v-model="serverLogQuery.RequestUrl" placeholder="Request URL Search"></b-form-input>
-                                </b-form-group>
-                            </b-col>
-                            <b-col>
-                                <b-form-group label="Page Number (50 per)">
-                                    <b-form-input v-model="serverLogQuery.pagination" placeholder="Page Number"></b-form-input>
-                                </b-form-group>
-                            </b-col>
-                        </b-row>
-                        <b-button variant="success" @click="queryServerExceptions">Query</b-button>
-                    </b-form>
-
-                    <b-table :items="serverExceptions"></b-table>
-            </b-card>
-        </b-container>
-
-
+            <dynamic-form title="Search Users" :options="userOptions" @query="getUsers" v-if="selectedTab == 'users'" key="users"></dynamic-form>
+            <dynamic-form title="Search Lobbies" :options="lobbyOptions" @query="getLobbies" v-else-if="selectedTab == 'lobbies'" key="lobbies"></dynamic-form>
+            <dynamic-form title="Search Activity Log" :options="serverLogOptions" @query="getServerLogs" v-else-if="selectedTab == 'server-logs'" key="server-logs"></dynamic-form>
+            <dynamic-form title="Search Exceptions" :options="serverExceptionOptions" @query="getServerExceptions" v-else-if="selectedTab == 'server-exceptions'" key="server-exceptions"></dynamic-form>
+        
+            <b-table :items="queryResults" responsive selectable small @row-selected="goTo"></b-table>
+        </b-card>
         </b-container>
     </div>
 </template>
 
 <script>
 import api from "../classes/Api";
+import DynamicForm from "../components/ApiForms/DynamicForm.vue"
 
 export default {
-    components: {  },
+    components: { DynamicForm },
     name: 'admin',
     data() {
         return {
-            roleOptions: [
-                "Unknown",
-                "User",
-                "Moderator",
-                "Administrator",
-                "EmailVerified",
-                "Banned",
-                "Muted",
-                ""
+            userOptions: [
+                {
+                    name: "Username",
+                    type: "text",
+                    description: "Search for a specific username",
+                },
+                {
+                    name: "Email",
+                    type: "text",
+                    description: "Search for user with a specific email",
+                },
+                {
+                    name: "Device ID",
+                    type: "text",
+                    description: "Search for user with a specific Device ID",
+                },
+                {
+                    name: "User ID",
+                    type: "text",
+                    description: "Search for specific User ID",
+                },
+                {
+                    name: "Has Role",
+                    type: "select",
+                    options: [
+                        "Unknown",
+                        "User",
+                        "Moderator",
+                        "Administrator",
+                        "EmailVerified",
+                        "Banned",
+                        "Muted",
+                    ],
+                    description: "Search for users that have a particular role",
+                },
+                {
+                    name: "Is Banned",
+                    type: "boolean",
+                    description: "Search for only banned or unbanned users",
+                },
+                {
+                    name: "Pagination",
+                    type: "number",
+                    description: "Page number",
+                }
+            ],
+            lobbyOptions: [
+                {
+                    name: "Room ID",
+                    type: "text",
+                    description: "Search for a specific Room ID"
+                },
+                {
+                    name: "Created By",
+                    type: "text",
+                    description: "Search for a UserID that created the lobby"
+                },
+                {
+                    name: "User In Room",
+                    type: "text",
+                    description: "Search for lobbies that a user is in"
+                },
+                {
+                    name: "Goal",
+                    type: "select",
+                    options: [
+                        "Mining", 
+                        "Domination"
+                    ],
+                    description: "Search for lobbies with a specific game type"
+                },
+                {
+                    name: "Min Players",
+                    type: "number",
+                    description: "Search for lobbies with at least this many players"
+                },
+                {
+                    name: "Max Players",
+                    type: "number",
+                    description: "Search for lobbies with at most this many players"
+                },
+                {
+                    name: "Is Anon",
+                    type: "boolean",
+                    description: "Search for Anonymous lobbies"
+                },
+                {
+                    name: "Is Ranked",
+                    type: "boolean",
+                    description: "Search for ranked lobbies"
+                },
+                {
+                    name: "Room Status",
+                    type: "select",
+                    options: [
+                        "Open",
+                        "Ongoing",
+                        "Closed",
+                        "Completed",
+                        "Expired"
+                    ],
+                    description: "Search for a specific room status"
+                },
+                {
+                    name: "Pagination",
+                    type: "number",
+                    description: "Page number"
+                },
+            ],
+            serverLogOptions : [
+                {
+                    name: "Pagination",
+                    type: "number",
+                    description: "Page number"
+                },
+                {
+                    name: "Username",
+                    type: "text",
+                    description: "Search for actions by a specific user"
+                },
+                {
+                    name: "User ID",
+                    type: "text",
+                    description: "Search for actions by a specific user"
+                },
+                {
+                    name: "Http Method",
+                    type: "text",
+                    description: "Search for actions to a specific method"
+                },
+                {
+                    name: "Request Url",
+                    type: "text",
+                    description: "Search for actions to a specific url"
+                },
+            ],
+            serverExceptionOptions: [
+                {
+                    name: "Username",
+                    type: "text",
+                    description: "Search for exceptions caused by a specific player"
+                },
+                {
+                    name: "User ID",
+                    type: "text",
+                    description: "Search for exceptions caused by a specific player"
+                },
+                {
+                    name: "Http Method",
+                    type: "text",
+                    description: "Search for exceptions on a specific Http Method"
+                },
+                {
+                    name: "Request Url",
+                    type: "text",
+                    description: "Search for exceptions at a specific URL"
+                },
+                {
+                    name: "Exception Source",
+                    type: "text",
+                    description: "Search for exceptions generated by a specific class"
+                },
+                {
+                    name: "Remote IP Address",
+                    type: "text",
+                    description: "Search for exceptions generated by a specific IP address"
+                },
             ],
             selectedTab: 'users',
-            account: JSON.parse(localStorage.getItem('user')),
-            userQuery: {
-                usernameSearch: "",
-                emailSearch: "",
-                deviceIdSearch: "",
-                userIdSearch: "",
-                hasRole: "",
-                isBanned: false,
-                pagination: 1,
-            },
-            serverLogQuery: {
-                pagination: 1,
-                usernameSearch: "",
-                userIdSearch: "",
-                httpMethod: "",
-                RequestUrl: "",
-            },
-            serverExceptionQuery: {
-                usernameSearch: "",
-                userIdSearch: "",
-                httpMethod: "",
-                RequestUrl: "",
-                pagination: 1,
-                ExceptionSource: "",
-                RemoteIpAddress: ""
-            },
-            serverOnline: false,
-            userResponse: [],
-            serverLogs: [],
-            serverExceptions: [],
+            queryResults: []
         };
     },
     methods: {
         setTab(tabName) {
             this.selectedTab = tabName;
+            this.queryResults = [];
         },
         isActive(tabName) {
             return this.selectedTab == tabName;
         },
-        queryUsers() {
-            api.getUsers(this.userQuery).then(
+        getUsers(getUserData) {
+            api.getUsers(getUserData).then(
                 (response) => {
-                    this.userResponse = response.data.users;
+                    this.queryResults = response.data.users;
                 },
                 (fail) => {
                     console.error(fail);
                 }
             );
         },
-        queryServerLogs() {
-            api.getServerLogs(this.serverLogQuery).then(
+        getLobbies(lobbyQuery) {
+            api.getLobbies(lobbyQuery).then(
                 (response) => {
-                    this.serverLogs = response.data.actions;
+                    this.queryResults = response.data.lobbies;
                 },
                 (fail) => {
                     console.error(fail);
                 }
             );
         },
-        queryServerExceptions() {
-            api.getServerExceptions(this.serverExceptionQuery).then(
+        getServerLogs(serverQuery) {
+            api.getServerLogs(serverQuery).then(
                 (response) => {
-                    this.serverExceptions = response.data.exceptions;
+                    this.queryResults = response.data.actions;
                 },
                 (fail) => {
                     console.error(fail);
                 }
             );
         },
+        getServerExceptions(exceptionQuery) {
+            api.getServerExceptions(exceptionQuery).then(
+                (response) => {
+                    this.queryResults = response.data.exceptions;
+                },
+                (fail) => {
+                    console.error(fail);
+                }
+            );
+        },
+        goTo(dataSelected) {
+            if(this.selectedTab == 'users') {
+                this.$router.push({ path: 'account', query: { id: dataSelected[0].id }})
+            }
+        }
     }
 }
 </script>

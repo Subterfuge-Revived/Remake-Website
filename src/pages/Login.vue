@@ -57,6 +57,7 @@ export default {
                     if(response.status == 200 && response.data.token != null) {
                         localStorage.setItem('user', JSON.stringify(response.data.user));
                         localStorage.setItem('access_token', response.data.token);
+                        this.$router.push({ path: 'account', query: { id: response.data.user.id }})
                     }
                 },
                 (fail) => {
