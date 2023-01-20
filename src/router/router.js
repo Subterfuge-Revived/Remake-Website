@@ -8,6 +8,7 @@ import GetInvolved from '../pages/GetInvolved.vue';
 import Login from '../pages/Login.vue';
 import Account from '../pages/Account.vue';
 import Admin from '../pages/Admin.vue';
+import Lobby from '../pages/Lobby.vue';
 
 Vue.use(VueRouter);
 
@@ -43,6 +44,11 @@ const router = new VueRouter({
       path: '/account',
       name: 'account',
       component: Account
+    },
+    {
+      path: '/lobby',
+      name: 'lobby',
+      component: Lobby
     },
     {
       path: '/admin',

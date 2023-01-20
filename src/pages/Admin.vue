@@ -63,7 +63,12 @@
             <dynamic-form title="Search Activity Log" :options="serverLogOptions" @query="getServerLogs" v-else-if="selectedTab == 'server-logs'" key="server-logs"></dynamic-form>
             <dynamic-form title="Search Exceptions" :options="serverExceptionOptions" @query="getServerExceptions" v-else-if="selectedTab == 'server-exceptions'" key="server-exceptions"></dynamic-form>
         
-            <b-table :items="queryResults" responsive selectable small @row-selected="goTo"></b-table>
+            <b-table :items="queryResults" responsive selectable small @row-selected="goTo" show-empty hover>
+                <template #empty="scope">
+                    <b-alert show variant="info" v-if="!hasQueried">Perform a query to view results. Adding no filters will query all {{ selectedTab }}</b-alert>
+                    <b-alert show variant="warning" v-else>No {{ selectedTab }}</b-alert>
+                </template>
+            </b-table>
         </b-card>
         </b-container>
     </div>
@@ -247,6 +252,7 @@ export default {
                 },
             ],
             selectedTab: 'users',
+            hasQueried: false,
             queryResults: []
         };
     },
@@ -254,6 +260,7 @@ export default {
         setTab(tabName) {
             this.selectedTab = tabName;
             this.queryResults = [];
+            this.hasQueried = false;
         },
         isActive(tabName) {
             return this.selectedTab == tabName;
@@ -261,6 +268,7 @@ export default {
         getUsers(getUserData) {
             api.getUsers(getUserData).then(
                 (response) => {
+                    this.hasQueried = true;
                     this.queryResults = response.data.users;
                 },
                 (fail) => {
@@ -271,6 +279,7 @@ export default {
         getLobbies(lobbyQuery) {
             api.getLobbies(lobbyQuery).then(
                 (response) => {
+                    this.hasQueried = true;
                     this.queryResults = response.data.lobbies;
                 },
                 (fail) => {
@@ -281,6 +290,7 @@ export default {
         getServerLogs(serverQuery) {
             api.getServerLogs(serverQuery).then(
                 (response) => {
+                    this.hasQueried = true;
                     this.queryResults = response.data.actions;
                 },
                 (fail) => {
@@ -291,6 +301,7 @@ export default {
         getServerExceptions(exceptionQuery) {
             api.getServerExceptions(exceptionQuery).then(
                 (response) => {
+                    this.hasQueried = true;
                     this.queryResults = response.data.exceptions;
                 },
                 (fail) => {
@@ -301,6 +312,8 @@ export default {
         goTo(dataSelected) {
             if(this.selectedTab == 'users') {
                 this.$router.push({ path: 'account', query: { id: dataSelected[0].id }})
+            } else if (this.selectedTab == 'lobbies') {
+                this.$router.push({ path: 'lobby', query: { id: dataSelected[0].id }})
             }
         }
     }

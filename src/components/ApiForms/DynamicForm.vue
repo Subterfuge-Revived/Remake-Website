@@ -43,7 +43,7 @@
 
             <b-button variant="success" @click="onQuery">Query</b-button>
         </b-form>
-    </b-card>  
+    </b-card>
 </template>
 
 <script>
@@ -68,7 +68,10 @@ export default {
                 });
                 return true;
             }
-        }
+        },
+        query: {
+            type: Function,
+        },
     },
     data() {
         return {
@@ -95,10 +98,6 @@ export default {
             console.info(map);
             this.$emit('query', map);
         },
-    },
-    mounted() {
-        // props are exposed on `this`
-        console.log(this.options)
     }
 }
 </script>
