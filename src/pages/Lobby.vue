@@ -1,6 +1,6 @@
 <template>
     <div class="sea-bg">
-        <b-container>
+        <b-container v-if="lobby != null">
             <b-card>
                 <b-container class="pb-4" v-if="currentUserAccount.claims.includes('Administrator')">
                     <b-row>
@@ -16,9 +16,9 @@
 
                 <b-row class="p-3">
                         Created By: {{ lobby.creator.username }}<br/>
-                        Created On: {{ new Date(lobby.timeCreated) }} <br/>
-                        Started At: {{ new Date(lobby.timeStarted) }} <br/>
-                        Game Duration: {{ getLobbyDuration() }} Minutes <br/>
+                        Created On: {{ getFriendlyDate(lobby.timeCreated) }} <br/>
+                        Started At: {{ getFriendlyDate(lobby.timeStarted) }} <br/>
+                        Game Duration: {{ getLobbyDuration() }} <br/>
                         Minutes Per Tick: {{ lobby.gameSettings.minutesPerTick }} <br/>
                         Current Tick: {{ getCurrentTick() }} <br/>
                 </b-row>
@@ -50,21 +50,51 @@
                             <div><h4>Players <b-badge pill>{{ lobby.playersInLobby.length }} / {{ lobby.gameSettings.maxPlayers }}</b-badge></h4></div>
                         </template>
 
-                        <b-table :items="lobby.playersInLobby" show-empty responsive selectable small></b-table>
+                        <b-table :items="lobby.playersInLobby" :fields="playerFields" show-empty responsive selectable small @row-selected="(event) => goToUser(event[0].id)">
+                            <template #cell(claims)="data">
+                                {{ data.item.claims.join(", ") }}
+                            </template>
+
+                            <template #cell(pseudonyms)="data">
+                                {{ data.item.pseudonyms.map(it => it.username).join(", ") }}
+                            </template>
+                        </b-table>
                     </b-tab>
                     <b-tab>
                         <template #title>
                             <div><h4>Game Events<b-badge pill>{{ gameEvents.length }}</b-badge></h4></div>
                         </template>
 
-                        <b-table :items="gameEvents" show-empty responsive selectable small></b-table>
+                        <b-table :items="gameEvents" :fields="gameEventFields" show-empty responsive selectable small>
+                            <template #cell(timeIssued)="data">
+                                {{ getFriendlyDate(data.item.timeIssued) }}
+                            </template>
+                            <template #cell(issuedBy)="data">
+                                <div @click="goToUser(data.item.issuedBy.id)">{{ data.item.issuedBy.username }}</div>
+                            </template>
+                        </b-table>
                     </b-tab>
                     <b-tab>
                         <template #title>
                             <div><h4>Group Chats <b-badge pill>{{ groups.length }}</b-badge></h4></div>
                         </template>
 
-                        <b-table :items="groups" show-empty responsive selectable small></b-table>
+                        <div class="accordion" role="tablist">
+                            <b-card no-body class="mb-1" v-for="group in groups" :key="group.id">
+                                <b-card-header header-tag="header" class="p-1" role="tab">
+                                    <b-button block v-b-toggle="group.id" variant="info" @click="getGroupMessages(group.id)">{{ getGroupMembers(group) }}</b-button>
+                                </b-card-header>
+                                <b-collapse :id="group.id" accordion="message-group-accordion" role="tabpanel">
+                                    <b-card-body :key="updateKey">
+                                        <b-card-text>
+                                            <div v-for="message in groupMessages[group.id]" :key=message.id>
+                                                {{ new Date(message.unixTimeCreatedAt) }} - <b>{{ message.sentBy.username}}:</b> {{ message.message}}
+                                            </div>
+                                        </b-card-text>
+                                    </b-card-body>
+                                </b-collapse>
+                            </b-card>
+                        </div>
                     </b-tab>
                 </b-tabs>
             </b-card>
@@ -75,10 +105,10 @@
 
 <script>
 import api from "../classes/Api";
+import moment from "moment";
 
 export default {
     name: 'lobby',
-    state: {},
     data() {
         return {
             selectedTab: "lobbies",
@@ -87,6 +117,19 @@ export default {
             currentUserAccount: JSON.parse(localStorage.getItem('user')),
             gameEvents: [],
             groups: [],
+            groupMessages: {},
+            updateKey: "1",
+            gameEventFields: [
+                { key: 'timeIssued', label: 'Time Issued' },
+                { key: 'occursAtTick', label: 'Occurs At Tick' },
+                { key: 'issuedBy', label: 'Issued By' },
+                { key: 'eventData', label: 'Event Data' },
+            ],
+            playerFields: [
+                { key: 'username', label: 'Username' },
+                { key: 'claims', label: 'Claims' },
+                { key: 'pseudonyms', label: 'Aliases' },
+            ]
         };
     },
     methods: {
@@ -110,7 +153,15 @@ export default {
         getLobbyMessageGroups() {
             api.getGroups(this.lobbyId).then(
                 (response) => {
-                    this.groups = response.data.messageGroups
+                    this.groups = response.data.messageGroups;
+                }
+            )
+        },
+        getGroupMessages(groupId) {
+            api.getGroupMessages(this.lobbyId, groupId).then(
+                (messageResponse) => {
+                    this.updateKey += "1";
+                    this.groupMessages[groupId] = messageResponse.data.messages;
                 }
             )
         },
@@ -129,10 +180,20 @@ export default {
             }
         },
         getLobbyDuration() {
-            return (new Date().getTime() - new Date(this.lobby.timeStarted).getTime()) / 60000
+            return moment(this.lobby.timeStarted).fromNow();
         },
         getCurrentTick() {
-            return this.getLobbyDuration() / this.lobby.gameSettings.minutesPerTick
+            return moment().diff(moment(this.lobby.timeStarted), 'minutes') / this.lobby.gameSettings.minutesPerTick
+        },
+        getGroupMembers(group) {
+            return group.groupMembers.map(it => it.username).join(", ");
+        },
+        goToUser(userId) {
+            console.log(userId);
+            this.$router.push({ path: 'account', query: { id: userId }})
+        },
+        getFriendlyDate(time) {
+            return moment(time).format('MMMM Do YYYY, h:mm:ss a');
         }
     },
     created() {

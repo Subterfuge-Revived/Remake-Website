@@ -307,6 +307,16 @@ let api = {
               Authorization: 'Bearer ' + token //the token is a variable which holds the token
             }
         });
+    },
+    getGroupMessages(roomId, groupId, pagination = 1) {
+        var url = `http://${CONFIG.serverUrl}/api/room/${roomId}/group/${groupId}/messages?Pagination=${pagination}`
+        var token = localStorage.getItem('subterfuge_access_token');
+
+        return Axios.get(url, {
+            headers: {
+              Authorization: 'Bearer ' + token //the token is a variable which holds the token
+            }
+        });
     }
 }
 
