@@ -64,6 +64,69 @@
             <dynamic-form title="Search Exceptions" :options="serverExceptionOptions" @query="getServerExceptions" v-else-if="selectedTab == 'server-exceptions'" key="server-exceptions"></dynamic-form>
         
             <b-table :items="queryResults" responsive selectable small @row-selected="goTo" show-empty hover>
+                <!-- User Template Fields -->
+                <template #cell(claims)="data">
+                    {{ data.item.claims.join(", ") }}
+                </template>
+
+                <template #cell(multiboxAccounts)="data">
+                    {{ data.item.multiboxAccounts.map(it => it.user.username).join(", ") }}
+                </template>
+
+                <template #cell(dateCreated)="data">
+                    {{ getFriendlyDate(data.item.dateCreated) }}
+                </template>
+
+                <template #cell(bannedUntil)="data">
+                    {{ getFriendlyDate(data.item.bannedUntil) }}
+                </template>
+
+                <!-- Lobby Template Fields -->
+                <template #cell(creator)="data">
+                    {{ data.item.creator.username }}
+                </template>
+
+                <template #cell(roomStatus)="data">
+                    {{ data.item.roomStatus }}
+                    <b-badge v-if="data.item.roomStatus == 'Ongoing'" variant="success">Tick: {{ getCurrentTick(data.item.timeStarted, data.item.gameSettings.minutesPerTick) }}</b-badge>
+                </template>
+
+                <template #cell(gameSettings)="data">
+                    <b-badge pill>{{ data.item.gameSettings.goal }}</b-badge><b-badge pill>Minutes Per Tick: {{ data.item.gameSettings.minutesPerTick }}</b-badge>
+                    <b-badge pill>Specialists: {{ data.item.gameSettings.allowedSpecialists.length }}</b-badge>
+                    <b-badge pill v-if="data.item.gameSettings.isPrivate" variant="danger">Private</b-badge>
+                    <b-badge pill v-if="data.item.gameSettings.isAnonymous" variant="success">Anonymous</b-badge>
+                    <b-badge pill v-if="data.item.gameSettings.isRanked" variant="warning">Ranked</b-badge>
+                </template>
+
+                <template #cell(mapConfiguration)="data">
+                    Player Outposts: {{ data.item.mapConfiguration.outpostsPerPlayer }}
+                </template>
+
+                <template #cell(timeCreated)="data">
+                    {{ getFriendlyDate(data.item.timeCreated) }}
+                </template>
+
+                <template #cell(timeStarted)="data">
+                    {{ getFriendlyDate(data.item.timeStarted) }}
+                </template>
+
+                <template #cell(expiresAt)="data">
+                    {{ getFriendlyDate(data.item.expiresAt) }}
+                </template>
+
+                <template #cell(playersInLobby)="data">
+                    <b-badge pill v-if="data.item.gameSettings.maxPlayers == data.item.playersInLobby.length" variant="danger">{{ data.item.playersInLobby.length }} / {{ data.item.gameSettings.maxPlayers }}</b-badge>
+                    <b-badge pill v-else variant="success">{{ data.item.playersInLobby.length }} / {{ data.item.gameSettings.maxPlayers }}</b-badge>
+                    {{ data.item.playersInLobby.map(it => it.username).join(", ") }}
+                </template>
+
+                
+                <!-- Activity Log Fields -->
+                <template #cell(timeProcessed)="data">
+                    {{ getFriendlyDate(data.item.timeProcessed) }}
+                </template>
+
                 <template #empty="scope">
                     <b-alert show variant="info" v-if="!hasQueried">Perform a query to view results. Adding no filters will query all {{ selectedTab }}</b-alert>
                     <b-alert show variant="warning" v-else>No {{ selectedTab }}</b-alert>
@@ -76,6 +139,7 @@
 
 <script>
 import api from "../classes/Api";
+import moment from "moment";
 import DynamicForm from "../components/ApiForms/DynamicForm.vue"
 
 export default {
@@ -315,7 +379,16 @@ export default {
             } else if (this.selectedTab == 'lobbies') {
                 this.$router.push({ path: 'lobby', query: { id: dataSelected[0].id }})
             }
-        }
+        },
+        getUsernameList(userList) {
+            return userList.map(it => it.userName);
+        },
+        getFriendlyDate(time) {
+            return moment(time).format('MMMM Do YYYY, h:mm:ss a');
+        },
+        getCurrentTick(startTime, minutesPerTick) {
+            return moment().diff(moment(startTime), 'minutes') / minutesPerTick
+        },
     }
 }
 </script>

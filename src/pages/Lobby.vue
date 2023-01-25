@@ -4,9 +4,9 @@
             <b-card>
                 <b-container class="pb-4" v-if="currentUserAccount.claims.includes('Administrator')">
                     <b-row>
-                        <b-col>
-                            <b-button variant="warning">Pause Game</b-button>
-                            <b-button variant="warning">Unpause Game</b-button>
+                        <b-col :key="updateKey">
+                            <b-button variant="warning" v-if="isGamePaused()" @click="unpauseGame">Unpause Game</b-button>
+                            <b-button variant="warning" v-else @click="pauseGame">Pause Game</b-button>
                             <b-button variant="danger">Kick Player</b-button>
                             <b-button variant="danger">Close Lobby</b-button>
                         </b-col>
@@ -118,7 +118,7 @@ export default {
             gameEvents: [],
             groups: [],
             groupMessages: {},
-            updateKey: "1",
+            updateKey: 1,
             gameEventFields: [
                 { key: 'timeIssued', label: 'Time Issued' },
                 { key: 'occursAtTick', label: 'Occurs At Tick' },
@@ -146,6 +146,7 @@ export default {
         getLobbyGameEvents() {
             api.getGameEvents(this.lobbyId).then(
                 (response) => {
+                    this.updateKey += 1;
                     this.gameEvents = response.data.gameEvents
                 }
             )
@@ -153,6 +154,7 @@ export default {
         getLobbyMessageGroups() {
             api.getGroups(this.lobbyId).then(
                 (response) => {
+                    this.updateKey += 1;
                     this.groups = response.data.messageGroups;
                 }
             )
@@ -160,7 +162,7 @@ export default {
         getGroupMessages(groupId) {
             api.getGroupMessages(this.lobbyId, groupId).then(
                 (messageResponse) => {
-                    this.updateKey += "1";
+                    this.updateKey += 1;
                     this.groupMessages[groupId] = messageResponse.data.messages;
                 }
             )
@@ -194,7 +196,38 @@ export default {
         },
         getFriendlyDate(time) {
             return moment(time).format('MMMM Do YYYY, h:mm:ss a');
-        }
+        },
+        isGamePaused() {
+            if(this.gameEvents.length > 0) {
+                if(this.gameEvents[this.gameEvents.length - 1].eventDataType == 'PauseGameEventData') {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            return false;
+        },
+        pauseGame() {
+            var pauseGameEvent = {
+                GameEventRequest: {
+                    OccursAtTick: Math.floor(this.getCurrentTick()) + 2,
+                    EventData: {
+                        EventDataType: "PauseGameEventData",
+                        TimePaused: new Date().toJSON()
+                    }
+                }
+            }
+
+            api.submitGameEvent(this.lobbyId, pauseGameEvent).then(
+                (response) => {
+                    console.log("Paused game.");
+                    this.getLobbyGameEvents();
+                }
+            )
+        },
+        unpauseGame() {
+
+        },
     },
     created() {
         this.getLobby();

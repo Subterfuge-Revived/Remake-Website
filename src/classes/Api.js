@@ -317,7 +317,18 @@ let api = {
               Authorization: 'Bearer ' + token //the token is a variable which holds the token
             }
         });
-    }
+    },
+    submitGameEvent(roomId, gameEventData) {
+        var url = `http://${CONFIG.serverUrl}/api/room/${roomId}/events`
+        var token = localStorage.getItem('subterfuge_access_token');
+
+        return Axios.post(url, gameEventData, {
+            headers: {
+              Authorization: 'Bearer ' + token //the token is a variable which holds the token
+            }
+        });
+
+    },
 }
 
 export default api;
