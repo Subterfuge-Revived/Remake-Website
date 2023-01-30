@@ -5,62 +5,79 @@
                 <b-container class="pb-4" v-if="currentUserAccount.claims.includes('Administrator')">
                     <b-row>
                         <b-col :key="updateKey">
-                            <b-button variant="warning" v-if="isGamePaused()" @click="unpauseGame">Unpause Game</b-button>
-                            <b-button variant="warning" v-else @click="pauseGame">Pause Game</b-button>
-                            <b-button variant="danger">Kick Player</b-button>
-                            <b-button variant="danger">Close Lobby</b-button>
+                            <b-button-group>
+                                <b-button variant="warning" v-if="isGamePaused()" @click="confirmAction('unpause game')">Unpause Game</b-button>
+                                <b-button variant="warning" v-else @click="confirmAction('pause game')">Pause Game</b-button>
+                                <b-button variant="danger" @click="confirmAction('close lobby')">Close Lobby</b-button>
+                            </b-button-group>
                         </b-col>
                     </b-row>
                 </b-container>
                 <h2>{{ lobby.roomName }} <b-badge class="m-1" pill :variant=getBadgeColor()>{{ lobby.roomStatus }}</b-badge></h2>
 
                 <b-row class="p-3">
-                        Created By: {{ lobby.creator.username }}<br/>
-                        Created On: {{ getFriendlyDate(lobby.timeCreated) }} <br/>
-                        Started At: {{ getFriendlyDate(lobby.timeStarted) }} <br/>
-                        Game Duration: {{ getLobbyDuration() }} <br/>
-                        Minutes Per Tick: {{ lobby.gameSettings.minutesPerTick }} <br/>
-                        Current Tick: {{ getCurrentTick() }} <br/>
-                </b-row>
-
-                <b-row class="p-3">
                     <b-col>
-                        <h4>Game Settings</h4>
-                        Goal: {{ lobby.gameSettings.goal }}<br/>
-                        Is Ranked: {{ lobby.gameSettings.isRanked }}<br/>
-                        Is Anonymous: {{ lobby.gameSettings.isAnonymous }}<br/>
-                        Is Private: {{ lobby.gameSettings.isPrivate }}<br/>
+                        <b-container>
+                            <p>
+                                Created On: {{ getFriendlyDate(lobby.timeCreated) }}
+                                Minutes Per Tick: {{ lobby.gameSettings.minutesPerTick }} <br/>
+                            </p>
+                            
+                            <p v-if="isGameStarted()">
+                                Started At: {{ getFriendlyDate(lobby.timeStarted) }} <br/>        
+                                Game Duration: {{ getLobbyDuration() }} <br/>
+                                Current Tick: {{ getCurrentTick() }} <br/>
+                            </p>
+                        </b-container>
+                        <b-container class="p-3">
+                            <b-tabs card content-class="mt-3">
+                                <b-tab active title="Game Settings">
+                                    <b-container>
+                                        <h4>Game Settings</h4>
+                                        Goal: {{ lobby.gameSettings.goal }}<br/>
+                                        Is Ranked: {{ lobby.gameSettings.isRanked }}<br/>
+                                        Is Anonymous: {{ lobby.gameSettings.isAnonymous }}<br/>
+                                        Is Private: {{ lobby.gameSettings.isPrivate }}<br/>
+                                    </b-container>
+                                </b-tab>
+                                <b-tab title="Map Settings">
+                                    <b-container>
+                                        <h4>Map Settings</h4>
+                                        Seed: {{ lobby.mapConfiguration.seed }}<br/>
+                                        Outposts per Player: {{ lobby.mapConfiguration.outpostsPerPlayer }}<br/>
+                                        Min Outpost Distance: {{ lobby.mapConfiguration.minimumOutpostDistance }}<br/>
+                                        Max Outpost Distance: {{ lobby.mapConfiguration.maxOutpostDistance }}<br/>
+                                        Dormants Per Player: {{ lobby.mapConfiguration.dormantsPerPlayer }}<br/>
+                                        Outpost Distribution: {{ lobby.mapConfiguration.outpostDistribution }}<br/>
+                                    </b-container>
+                                </b-tab>
+                            </b-tabs>
+                        </b-container>
                     </b-col>
                     <b-col>
-                        <h4>Map Settings</h4>
-                        Seed: {{ lobby.mapConfiguration.seed }}<br/>
-                        Outposts per Player: {{ lobby.mapConfiguration.outpostsPerPlayer }}<br/>
-                        Min Outpost Distance: {{ lobby.mapConfiguration.minimumOutpostDistance }}<br/>
-                        Max Outpost Distance: {{ lobby.mapConfiguration.maxOutpostDistance }}<br/>
-                        Dormants Per Player: {{ lobby.mapConfiguration.dormantsPerPlayer }}<br/>
-                        Outpost Distribution: {{ lobby.mapConfiguration.outpostDistribution }}<br/>
-                    </b-col>
-                </b-row>
-
-            
-            <b-card class="m-3">
-                <b-tabs card content-class="mt-3">
-                    <b-tab active>
-                        <template #title>
-                            <div><h4>Players <b-badge pill>{{ lobby.playersInLobby.length }} / {{ lobby.gameSettings.maxPlayers }}</b-badge></h4></div>
-                        </template>
-
+                        <h2>Players in Lobby</h2>
                         <b-table :items="lobby.playersInLobby" :fields="playerFields" show-empty responsive selectable small @row-selected="(event) => goToUser(event[0].id)">
-                            <template #cell(claims)="data">
-                                {{ data.item.claims.join(", ") }}
+                            <template #cell(username)="data">
+                                {{ data.item.username }}<b-badge class="m-1" pill v-for="item in data.item.claims" :key=item>{{ item }}</b-badge><b-badge class="m-1" pill v-if="isPlayerTheCreator(data.item.id)" variant="success">Creator</b-badge>
                             </template>
 
                             <template #cell(pseudonyms)="data">
                                 {{ data.item.pseudonyms.map(it => it.username).join(", ") }}
                             </template>
+
+                            <template #cell(actions)="data">    
+                                <b-button-group>
+                                    <b-button variant="danger" v-if="currentUserAccount.claims.includes('Administrator')" @click="confirmAction('kick player', data.item)">Kick player</b-button>
+                                    <b-button variant="danger" v-if="currentUserAccount.claims.includes('Administrator')" @click="confirmAction('ban player', data.item)">Ban player</b-button>
+                                </b-button-group>
+                            </template>
                         </b-table>
-                    </b-tab>
-                    <b-tab>
+                    </b-col>
+                </b-row>
+            
+            <b-card class="m-3">
+                <b-tabs card content-class="mt-3">
+                    <b-tab active>
                         <template #title>
                             <div><h4>Game Events<b-badge pill>{{ gameEvents.length }}</b-badge></h4></div>
                         </template>
@@ -88,7 +105,7 @@
                                     <b-card-body :key="updateKey">
                                         <b-card-text>
                                             <div v-for="message in groupMessages[group.id]" :key=message.id>
-                                                {{ new Date(message.unixTimeCreatedAt) }} - <b>{{ message.sentBy.username}}:</b> {{ message.message}}
+                                                {{ getFriendlyDate(message.sentAt) }} - <b>{{ message.sentBy.username}}:</b> {{ message.message}}
                                             </div>
                                         </b-card-text>
                                     </b-card-body>
@@ -100,6 +117,30 @@
             </b-card>
             </b-card>
         </b-container>
+
+        <b-modal id="confirm-modal" title="Confirm" v-model="confirm.show" @ok="confirm.onConfirm">
+            <b-alert variant="danger" show>You are about to ban: <b>{{ banData.user.username }}</b></b-alert>
+            <b-form v-if="this.confirm.confirmAction === 'ban player'" class="m-3">
+                <b-container>
+                    <b-container>
+                        <b-button @click="setOneDayBan">One Day</b-button>
+                        <b-button @click="setOneWeekBan">One Week</b-button>
+                        <b-button @click="setForeverBan">Forever</b-button>
+                    </b-container>
+                    <b-input-group prepend="Until" class="p-3">
+                        <b-form-datepicker v-model="banData.until" value-as-date></b-form-datepicker>
+                    </b-input-group>
+                    <b-input-group prepend="Reason" class="p-3">
+                        <b-form-textarea v-model="banData.reason" placeholder="Reason for ban (shown to player)" trim></b-form-textarea>
+                    </b-input-group>
+                    <b-input-group prepend="Admin Notes" class="p-3" is-text>
+                        <b-form-textarea v-model="banData.adminNotes" type="text" placeholder="Extra administrator notes (only seen by admins)" trim></b-form-textarea>
+                    </b-input-group>
+                </b-container>
+            </b-form>
+
+            <p class="my-4">Are you sure you want to {{ confirm.confirmAction }}?</p>
+        </b-modal>
     </div>
 </template>
 
@@ -121,15 +162,26 @@ export default {
             updateKey: 1,
             gameEventFields: [
                 { key: 'timeIssued', label: 'Time Issued' },
-                { key: 'occursAtTick', label: 'Occurs At Tick' },
+                { key: 'gameEventData.occursAtTick', label: 'Occurs At Tick' },
                 { key: 'issuedBy', label: 'Issued By' },
-                { key: 'eventData', label: 'Event Data' },
+                { key: 'gameEventData.eventData', label: 'Event Data' },
             ],
             playerFields: [
                 { key: 'username', label: 'Username' },
-                { key: 'claims', label: 'Claims' },
                 { key: 'pseudonyms', label: 'Aliases' },
-            ]
+                { key: 'actions', label: 'Actions' },
+            ],
+            confirm: {
+                show: false,
+                confirmAction: "",
+                onConfirm: () => {},
+            },
+            banData: {
+                user: {},
+                until: new Date(),
+                reason: "",
+                adminNotes: ""
+            }
         };
     },
     methods: {
@@ -199,17 +251,46 @@ export default {
         },
         isGamePaused() {
             if(this.gameEvents.length > 0) {
-                if(this.gameEvents[this.gameEvents.length - 1].eventDataType == 'PauseGameEventData') {
-                    return true;
-                } else {
-                    return false;
+
+                // Go backwards through recent events.
+                // If there is a pause event, it is paused, otherwise unpaused.
+                // Note: Because of pagination this is a rough estimate. Real clients will be more accurate.
+                for(var index = this.gameEvents.length - 1; index >= 0; index--) {
+                    if(this.gameEvents[index].gameEventData.eventData.eventDataType === "PauseGameEventData") {
+                        return true;
+                    } else if (this.gameEvents[index].gameEventData.eventData.eventDataType === "UnpauseGameEventData") {
+                        return false;
+                    }
                 }
             }
             return false;
         },
+        isGameStarted() {
+            return this.lobby.roomStatus === "Ongoing";
+        },
+        isPlayerTheCreator(userId) {
+            return this.lobby.playersInLobby[0].id == userId;
+        },
+        confirmAction(action, data = null) {
+            this.confirm.confirmAction = action;
+            this.confirm.show = true;
+            if(this.confirm.confirmAction === "unpause game") {
+                this.confirm.onConfirm = this.unpauseGame;
+            } else if(this.confirm.confirmAction === "pause game") {
+                this.confirm.onConfirm = this.pauseGame;
+            } else if (this.confirm.confirmAction === "close lobby") {
+                this.confirm.onConfirm = this.closeGame;
+            } else if (this.confirm.confirmAction === "kick player") {
+                this.confirm.onConfirm = this.kickPlayer(data);
+            } else if (this.confirm.confirmAction === "ban player") {
+                this.banData.user = data;
+                this.setOneDayBan();
+                this.confirm.onConfirm = this.banPlayer;
+            }
+        },
         pauseGame() {
             var pauseGameEvent = {
-                GameEventRequest: {
+                GameEventData: {
                     OccursAtTick: Math.floor(this.getCurrentTick()) + 2,
                     EventData: {
                         EventDataType: "PauseGameEventData",
@@ -220,14 +301,93 @@ export default {
 
             api.submitGameEvent(this.lobbyId, pauseGameEvent).then(
                 (response) => {
-                    console.log("Paused game.");
                     this.getLobbyGameEvents();
                 }
             )
         },
         unpauseGame() {
+            var unpauseGameEvent = {
+                GameEventData: {
+                    OccursAtTick: Math.floor(this.getCurrentTick()) + 2,
+                    EventData: {
+                        EventDataType: "UnpauseGameEventData",
+                        TimeUnpaused: new Date().toJSON()
+                    }
+                }
+            }
 
+            api.submitGameEvent(this.lobbyId, unpauseGameEvent).then(
+                (response) => {
+                    this.getLobbyGameEvents();
+                }
+            )
         },
+        closeGame() {
+            var endGameEvent = {
+                GameEventData: {
+                    OccursAtTick: Math.floor(this.getCurrentTick()) + 2,
+                    EventData: {
+                        EventDataType: "GameEndEventData",
+                        ClosedByAdmin: true,
+                        WinningPlayer: null,
+                    }
+                }
+            }
+
+            api.submitGameEvent(this.lobbyId, endGameEvent).then(
+                (response) => {
+                    this.getLobbyGameEvents();
+                }
+            )
+        },
+        kickPlayer(user) {
+            var leaveGameEvent = {
+                GameEventData: {
+                    OccursAtTick: Math.floor(this.getCurrentTick()) + 2,
+                    EventData: {
+                        EventDataType: "PlayerLeaveGameEventData",
+                        Player: {
+                            id: user.id,
+                            username: user.username,
+                        }
+                    }
+                }
+            }
+
+            api.submitGameEvent(this.lobbyId, leaveGameEvent).then(
+                (response) => {
+                    this.getLobbyGameEvents();
+                }
+            )
+        },
+        banPlayer() {
+            var banRequest = {
+                userId: this.banData.user.id,
+                until: this.banData.until,
+                reason: this.banData.reason,
+                adminNotes: this.banData.adminNotes,
+            }
+
+            api.banPlayer(banRequest);
+        },
+        setForeverBan() {
+            var today = moment()
+            today.add('9999', 'y')
+            this.banData.until = new Date(today)
+        },
+        setOneDayBan() {
+            var oneDay = moment()
+            oneDay.add('1', 'd')
+            this.banData.until = new Date(oneDay)
+        },
+        setOneWeekBan() {
+            var oneDay = moment()
+            oneDay.add('7', 'd')
+            this.banData.until = new Date(oneDay)
+        },
+        relativeTime(currentTime) {
+            return moment(currentTime).fromNow()
+        }
     },
     created() {
         this.getLobby();

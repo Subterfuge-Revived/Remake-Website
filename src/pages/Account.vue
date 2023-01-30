@@ -24,20 +24,16 @@
             </b-form>
         </b-container>
 
-        <b-container v-if="currentUserAccount.claims.includes('Administrator')">
-            <h2>Account Administration</h2>
-
+        <b-container>
             <b-card class="p-2">
-                <b-card class="m-2 p-2">
+                <b-card class="m-2 p-2" v-if="currentUserAccount.claims.includes('Administrator')">
                     <h4>Administrative Actions</h4>
                     <b-row>
                         <b-col>
-                            <b-button variant="danger">Ban Player</b-button>
+                            <b-button variant="danger" v-if="!isBanned()">Ban Player</b-button>
+                            <b-button variant="success" v-if="isBanned()">Unban Player</b-button>
                             <b-button variant="danger">Ban IP</b-button>
-                            <b-button variant="warning">Mute Player</b-button>
-                            <b-button variant="warning">Unmute Player</b-button>
                             <b-button variant="secondary">Update Role</b-button>
-                            <b-button variant="success">Unban Player</b-button>
                         </b-col>
                     </b-row>
                 </b-card>
@@ -45,16 +41,17 @@
                 <b-card class="m-2 p-2">
                     <b-nav tabs>
                         <b-nav-item :active="isActive('lobbies')" @click="setTab('lobbies')"><h5>Lobbies</h5></b-nav-item>
-                        <b-nav-item :active="isActive('chats')" @click="setTab('chats')"><h5>Chats</h5></b-nav-item>
                         <b-nav-item :active="isActive('specialists')" @click="setTab('specialists')"><h5>Specialists</h5></b-nav-item>
                         <b-nav-item :active="isActive('specialists-packages')" @click="setTab('specialists-packages')"><h5>Specialist Packages</h5></b-nav-item>
-                        <b-nav-item :active="isActive('ban-history')" @click="setTab('ban-history')"><h5>Ban History</h5></b-nav-item>
-                        <b-nav-item :active="isActive('social')" @click="setTab('social')"><h5>Social</h5></b-nav-item>
+                        <b-nav-item :active="isActive('chats')" @click="setTab('chats')" v-if="currentUserAccount.claims.includes('Administrator')"><h5>Chats</h5></b-nav-item>
+                        <b-nav-item :active="isActive('ban-history')" v-if="currentUserAccount.claims.includes('Administrator')" @click="setTab('ban-history')"><h5>Ban History</h5></b-nav-item>
+                        <b-nav-item :active="isActive('social')" v-if="currentUserAccount.claims.includes('Administrator')" @click="setTab('social')"><h5>Social</h5></b-nav-item>
                     </b-nav>
 
-                    <b-container v-if="selectedTab == 'social'">
+                    <b-container class="p-4" v-if="selectedTab == 'social'">
                         <b-row>
                             <b-col>
+                                <h2>Friends</h2>
                                 <b-table :items="friends" responsive selectable small show-empty>
                                     <template #empty="scope">
                                         <b-alert show variant="warning">No Friends</b-alert>
@@ -62,6 +59,7 @@
                                 </b-table>
                             </b-col>
                             <b-col>
+                                <h2>Friend Requests</h2>
                                 <b-table :items="friendRequests" responsive selectable small show-empty>
                                     <template #empty="scope">
                                         <b-alert show variant="warning">No Friend Requests</b-alert>
@@ -69,6 +67,7 @@
                                 </b-table>
                             </b-col>
                             <b-col>
+                                <h2>Blocked Users</h2>
                                 <b-table :items="blockedUsers" responsive selectable small show-empty>
                                     <template #empty="scope">
                                         <b-alert show variant="warning">No Blocked Users</b-alert>
@@ -79,6 +78,58 @@
                     </b-container>
 
                     <b-table :items="queryResults" responsive selectable small show-empty v-else>
+
+                        <!-- Lobby overrides -->
+                        <template #cell(creator)="data">
+                            {{ data.item.creator.username }}
+                        </template>
+
+                        <template #cell(timeCreated)="data">
+                            {{ getFriendlyDate(data.item.timeCreated) }}
+                        </template>
+
+                        <template #cell(timeStarted)="data">
+                            {{ getFriendlyDate(data.item.startedAt) }}
+                        </template>
+
+                        <template #cell(expiresAt)="data">
+                            {{ getFriendlyDate(data.item.expiresAt) }}
+                        </template>
+
+                        <template #cell(playersInLobby)="data">
+                            <b-badge pill v-if="data.item.gameSettings.maxPlayers == data.item.playersInLobby.length" variant="danger">{{ data.item.playersInLobby.length }} / {{ data.item.gameSettings.maxPlayers }}</b-badge>
+                            <b-badge pill v-else variant="success">{{ data.item.playersInLobby.length }} / {{ data.item.gameSettings.maxPlayers }}</b-badge>
+                            {{ data.item.playersInLobby.map(it => it.username).join(", ") }}
+                        </template>
+
+                        <template #cell(gameSettings)="data">
+                            <b-badge pill>{{ data.item.gameSettings.goal }}</b-badge><b-badge pill>Minutes Per Tick: {{ data.item.gameSettings.minutesPerTick }}</b-badge>
+                            <b-badge pill>Specialists: {{ data.item.gameSettings.allowedSpecialists.length }}</b-badge>
+                            <b-badge pill v-if="data.item.gameSettings.isPrivate" variant="danger">Private</b-badge>
+                            <b-badge pill v-if="data.item.gameSettings.isAnonymous" variant="success">Anonymous</b-badge>
+                            <b-badge pill v-if="data.item.gameSettings.isRanked" variant="warning">Ranked</b-badge>
+                        </template>
+
+                        <template #cell(mapConfiguration)="data">
+                            Player Outposts: {{ data.item.mapConfiguration.outpostsPerPlayer }}
+                        </template>
+
+                        <!-- Chat overrides -->
+                        <template #cell(sentAt)="data">
+                            {{ getFriendlyDate(data.item.sentAt) }}
+                        </template>
+
+                        <template #cell(sentBy)="data">
+                            {{ data.item.sentBy.username }}
+                        </template>
+
+                        <!-- Specialist overrides -->
+                        <template #cell(specialistEffects)="data">
+                            <p v-for="effect in data.item.specialistEffects" :key="effect">
+                                {{ effect.effectTarget }} {{ effect.value > 0 ? "Gain" : "Lose" }} {{ Math.abs(effect.value) }} {{ effect.effectModifier }} When {{ effect.effectTriggerRange }} {{ effect.effectTrigger }} 
+                            </p>
+                        </template>
+
                         <template #empty="scope">
                             <b-alert show variant="warning">No Results</b-alert>
                         </template>
@@ -93,6 +144,7 @@
 import Hero from "../components/global/Hero";
 import AppDownload from "../components/global/AppDownload.vue";
 import api from "../classes/Api";
+import moment from "moment";
 
 export default {
     components: { Hero, AppDownload },
@@ -173,14 +225,14 @@ export default {
         getPlayerSpecialists() {
             api.getSpecialists({ CreatedByPlayerId: this.accountId }).then(
                 (response) => {
-                    this.queryResults = response.data.messages;
+                    this.queryResults = response.data.customSpecialists;
                 }
             )
         },
         getPlayerSpecialistPackages() {
             api.getSpecialistPackages({ CreatedByPlayerId: this.accountId }).then(
                 (response) => {
-                    this.queryResults = response.data.messages;
+                    this.queryResults = response.data.specialistPackages;
                 }
             )
         },
@@ -194,21 +246,23 @@ export default {
         getPlayerRelationships() {
             api.getPlayerBlocks(this.accountId).then(
                 (response) => {
-                    this.blockedUsers = response.data.blockedUsers;
+                    this.blockedUsers = response.data.blockedUsers.map(it => ({ username: it.username, id: it.id }));
                 }
             )
             api.getPlayerFriends(this.accountId).then(
                 (response) => {
-                    this.friends = response.data.friendRequests;
+                    this.friends = response.data.friends.map(it => ({ username: it.username, id: it.id }));
                 }
             )
             api.getPlayerFriendRequests(this.accountId).then(
                 (response) => {
-                    this.friendRequests = response.data.friends;
+                    this.friendRequests = response.data.friendRequests.map(it => ({ username: it.username, id: it.id }));
                 }
             )
         },
-
+        getFriendlyDate(time) {
+            return moment(time).format('MMMM Do YYYY, h:mm:ss a');
+        },
     },
     created() {
         this.getAccountDetails();

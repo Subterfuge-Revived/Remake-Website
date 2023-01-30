@@ -5,7 +5,7 @@
   },
   "production": {
     "id": "production",
-    "serverUrl": "server:8080"
+    "serverUrl": "server:5295"
   },
   "environment": "development"
 }

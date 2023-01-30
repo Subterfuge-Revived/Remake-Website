@@ -327,8 +327,17 @@ let api = {
               Authorization: 'Bearer ' + token //the token is a variable which holds the token
             }
         });
-
     },
+    banPlayer(banRequest) {
+        var url = `http://${CONFIG.serverUrl}/api/admin/banPlayer`
+        var token = localStorage.getItem('subterfuge_access_token');
+
+        return Axios.post(url, banRequest, {
+            headers: {
+              Authorization: 'Bearer ' + token //the token is a variable which holds the token
+            }
+        });
+    }
 }
 
 export default api;
