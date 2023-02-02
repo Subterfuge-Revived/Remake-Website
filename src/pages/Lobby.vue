@@ -1,5 +1,5 @@
 <template>
-    <div class="sea-bg">
+    <div>
         <b-container v-if="lobby != null">
             <b-card>
                 <b-container class="pb-4" v-if="currentUserAccount.claims.includes('Administrator')">

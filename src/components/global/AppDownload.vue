@@ -1,5 +1,5 @@
 <template>
-  <b-container class="download-border mt-40">
+  <TextContent class="mt-40">
     <h4 class="p-3 text-center">Currently under development!</h4>
     <p class="descriptionText text-center"> Expected launch: Unknown </p>
     <b-row class="download-padding">
@@ -13,16 +13,19 @@
             <img class="blocked-image strikethrough" :src=icons.steam />
         </b-col>
     </b-row>
-  </b-container>
+  </TextContent>
 </template>
 
 <script>
+
+import TextContent from "../global/TextContent.vue";
 import iosStore from "../../assets/ios_store.png";
 import playStore from "../../assets/play_store.png";
 import steamStore from "../../assets/steam_store.png";
 
 export default {
     name: 'download',
+    components: { TextContent },
     data() {
         return {
             icons: {
@@ -36,15 +39,6 @@ export default {
 </script>
 
 <style>
-.download-border {
-    color: rgb(231,237,240);
-    border: 1px solid rgb(15, 20, 24);
-    border-radius: 10px;
-    background-color: rgba(15, 20, 24, 0.75);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
-
 .download-padding {
     padding: 40px;
     padding-top: 10px;
@@ -64,7 +58,7 @@ export default {
   left: 0;
   top: 50%;
   right: 0;
-  border-top: 1px solid;
+  border-top: 4px solid;
   border-color: inherit;
   z-index: 99;
 
@@ -80,7 +74,7 @@ export default {
 }
 
 .mt-40 {
-    margin-top: 100px;
+    margin-top: 50px;
 }
 
 .wide-30 {

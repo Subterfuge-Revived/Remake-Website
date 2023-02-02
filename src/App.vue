@@ -15,3 +15,27 @@ export default {
     components: { navbar }
 }
 </script>
+
+<style>
+html * {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: rgba(155, 193, 255, 1) url("./assets/TiledSpecialistBackground.png");
+  background-blend-mode: multiply;
+}
+
+p {
+  color: rgb(164, 157, 157);
+}
+
+.white {
+  color: white;
+}
+
+.black {
+  color: black;
+}
+
+</style>

@@ -1,5 +1,5 @@
 <template>
-    <b-card style="color: black" :title="title">
+    <TextContent class="p-5" style="color: black" :title="title">
         
         <b-form>
             <b-row>
@@ -43,11 +43,15 @@
 
             <b-button variant="success" @click="onQuery">Query</b-button>
         </b-form>
-    </b-card>
+    </TextContent>
 </template>
 
 <script>
+
+import TextContent from "../global/TextContent.vue";
+
 export default {
+    components: { TextContent },
     props: {
         title: {
             type: String,

@@ -1,32 +1,34 @@
 <template>
-    <div class="sea-bg">
+    <div>
         <b-container class="p-5" v-if="account != null">
             <b-form>               
-                <h2>{{account.username}} <b-badge class="m-1" pill v-for="item in account.claims" :key=item :variant=getBadgeColor(item)>{{ item }}</b-badge></h2>
+                <h2 class="white">{{account.username}} <b-badge class="m-1" pill v-for="item in account.claims" :key=item :variant=getBadgeColor(item)>{{ item }}</b-badge></h2>
 
-                <b-form-group label="Account Created">
-                    <b-form-input
-                    id="input-1"
-                    :value="new Date(account.dateCreated).toString()"
-                    type="datetime"
-                    disabled
-                    ></b-form-input>
-                </b-form-group>
+                <TextContent class="white p-4">
+                    <b-form-group label="Account Created">
+                        <b-form-input
+                        id="input-1"
+                        :value="new Date(account.dateCreated).toString()"
+                        type="datetime"
+                        disabled
+                        ></b-form-input>
+                    </b-form-group>
 
-                <b-form-group label="Banned Until" v-if="isBanned()">
-                    <b-form-input
-                    id="input-1"
-                    :value="new Date(account.bannedUntil).toString()"
-                    type="datetime"
-                    disabled
-                    ></b-form-input>
-                </b-form-group>
+                    <b-form-group label="Banned Until" v-if="isBanned()">
+                        <b-form-input
+                        id="input-1"
+                        :value="new Date(account.bannedUntil).toString()"
+                        type="datetime"
+                        disabled
+                        ></b-form-input>
+                    </b-form-group>
+                </TextContent>
             </b-form>
         </b-container>
 
         <b-container>
-            <b-card class="p-2">
-                <b-card class="m-2 p-2" v-if="currentUserAccount.claims.includes('Administrator')">
+            <TextContent class="p-2">
+                <TextContent class="m-2 p-2" v-if="currentUserAccount.claims.includes('Administrator')">
                     <h4>Administrative Actions</h4>
                     <b-row>
                         <b-col>
@@ -36,9 +38,9 @@
                             <b-button variant="secondary">Update Role</b-button>
                         </b-col>
                     </b-row>
-                </b-card>
+                </TextContent>
                 
-                <b-card class="m-2 p-2">
+                <TextContent class="m-2 p-2">
                     <b-nav tabs>
                         <b-nav-item :active="isActive('lobbies')" @click="setTab('lobbies')"><h5>Lobbies</h5></b-nav-item>
                         <b-nav-item :active="isActive('specialists')" @click="setTab('specialists')"><h5>Specialists</h5></b-nav-item>
@@ -134,20 +136,21 @@
                             <b-alert show variant="warning">No Results</b-alert>
                         </template>
                     </b-table>
-                </b-card>
-            </b-card>
+                </TextContent>
+            </TextContent>
         </b-container>
     </div>
 </template>
 
 <script>
 import Hero from "../components/global/Hero";
+import TextContent from "../components/global/TextContent.vue";
 import AppDownload from "../components/global/AppDownload.vue";
 import api from "../classes/Api";
 import moment from "moment";
 
 export default {
-    components: { Hero, AppDownload },
+    components: { Hero, AppDownload, TextContent },
     name: 'account',
     state: {},
     data() {
@@ -271,10 +274,5 @@ export default {
 </script>
 
 <style>
-
-.sea-bg {
-    background: url("../assets/sea.png");
-    color: rgb(204, 204, 204)
-}
 
 </style>

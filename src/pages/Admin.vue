@@ -1,56 +1,70 @@
 <template>
-    <div class="sea-bg text-center">
+    <div class="text-center">
         <b-container class="p-5" style="color: black;">
             <b-row class="p-5">
                 <b-col>
-                    <b-card title="Status">
-                        Online
-                    </b-card>
+                    <TextContent class="p-3 maxHeight">
+                        <h4>Status</h4>
+                        <p>Online</p>
+                    </TextContent>
                 </b-col>
                 <b-col>
-                    <b-card title="Uptime">
-                        TODO
-                    </b-card>
+                    <TextContent class="p-3 maxHeight">
+                        <h4>Uptime</h4>
+                        <p>TODO</p>
+                    </TextContent>
                 </b-col>
                 <b-col>
-                    <b-card title="CPU %">
-                        TODO
-                    </b-card>
+                    <TextContent class="p-3 maxHeight">
+                        <h4>CPU %</h4>
+                        <p>TODO</p>
+                    </TextContent>
                 </b-col>
                 <b-col>
-                    <b-card title="Memory %">
-                        TODO
-                    </b-card>
+                    <TextContent class="p-3 maxHeight">
+                        <h4>Memory %</h4>
+                        <p>TODO</p>
+                    </TextContent>
                 </b-col>
                 <b-col>
-                    <b-card title="Disk %">
-                        TODO
-                    </b-card>
+                    <TextContent class="p-3 maxHeight">
+                        <h4>Disk %</h4>
+                        <p>TODO</p>
+                    </TextContent>
                 </b-col>
             </b-row>
             <b-row class="p-5">
                 <b-col>
-                    <b-card title="Total Players">
+                    <TextContent class="p-3 maxHeight">
                         <!-- https://github.com/samber/chartjs-plugin-datasource-prometheus -->
-                        TODO (graph?)
-                    </b-card>
+                        <h4>Total Players</h4>
+                        <p>TODO</p>
+                    </TextContent>
                 </b-col>
                 <b-col>
-                    <b-card title="Ongoing Lobbies">
-                        TODO (graph?)
-                    </b-card>
+                    <TextContent class="p-3 maxHeight">
+                        <h4>Ongoing Lobbies</h4>
+                        <p>TODO</p>
+                    </TextContent>
                 </b-col>
                 <b-col>
-                    <b-card title="Events Submitted">
-                        TODO (graph?)
-                    </b-card>
+                    <TextContent class="p-3 maxHeight">
+                        <h4>Events Submitted</h4>
+                        <p>TODO</p>
+                    </TextContent>
+                </b-col>
+                <b-col>
+                    <TextContent class="p-3 maxHeight">
+                        <h4>Player Retention</h4>
+                        <p>TODO - Account activity after 1 week of account creation</p>
+                    </TextContent>
                 </b-col>
 
             </b-row>
         </b-container>
 
         <b-container>
-        <b-card class="p-5">
+        <TextContent class="p-5">
             <b-nav tabs>
                 <b-nav-item :active="isActive('users')" @click="setTab('users')"><h3>Users</h3></b-nav-item>
                 <b-nav-item :active="isActive('lobbies')" @click="setTab('lobbies')"><h3>Game Lobbies</h3></b-nav-item>
@@ -62,77 +76,79 @@
             <dynamic-form title="Search Lobbies" :options="lobbyOptions" @query="getLobbies" v-else-if="selectedTab == 'lobbies'" key="lobbies"></dynamic-form>
             <dynamic-form title="Search Activity Log" :options="serverLogOptions" @query="getServerLogs" v-else-if="selectedTab == 'server-logs'" key="server-logs"></dynamic-form>
             <dynamic-form title="Search Exceptions" :options="serverExceptionOptions" @query="getServerExceptions" v-else-if="selectedTab == 'server-exceptions'" key="server-exceptions"></dynamic-form>
-        
-            <b-table :items="queryResults" responsive selectable small @row-selected="goTo" show-empty hover>
-                <!-- User Template Fields -->
-                <template #cell(claims)="data">
-                    {{ data.item.claims.join(", ") }}
-                </template>
 
-                <template #cell(multiboxAccounts)="data">
-                    {{ data.item.multiboxAccounts.map(it => it.user.username).join(", ") }}
-                </template>
+            <b-container class="p-4 white" style="margin: auto">
+                <b-table :items="queryResults" responsive selectable small @row-selected="goTo" show-empty hover>
+                    <!-- User Template Fields -->
+                    <template #cell(claims)="data">
+                        {{ data.item.claims.join(", ") }}
+                    </template>
 
-                <template #cell(dateCreated)="data">
-                    {{ getFriendlyDate(data.item.dateCreated) }}
-                </template>
+                    <template #cell(multiboxAccounts)="data">
+                        {{ data.item.multiboxAccounts.map(it => it.user.username).join(", ") }}
+                    </template>
 
-                <template #cell(bannedUntil)="data">
-                    {{ getFriendlyDate(data.item.bannedUntil) }}
-                </template>
+                    <template #cell(dateCreated)="data">
+                        {{ getFriendlyDate(data.item.dateCreated) }}
+                    </template>
 
-                <!-- Lobby Template Fields -->
-                <template #cell(creator)="data">
-                    {{ data.item.creator.username }}
-                </template>
+                    <template #cell(bannedUntil)="data">
+                        {{ getFriendlyDate(data.item.bannedUntil) }}
+                    </template>
 
-                <template #cell(roomStatus)="data">
-                    {{ data.item.roomStatus }}
-                    <b-badge v-if="data.item.roomStatus == 'Ongoing'" variant="success">Tick: {{ getCurrentTick(data.item.timeStarted, data.item.gameSettings.minutesPerTick) }}</b-badge>
-                </template>
+                    <!-- Lobby Template Fields -->
+                    <template #cell(creator)="data">
+                        {{ data.item.creator.username }}
+                    </template>
 
-                <template #cell(gameSettings)="data">
-                    <b-badge pill>{{ data.item.gameSettings.goal }}</b-badge><b-badge pill>Minutes Per Tick: {{ data.item.gameSettings.minutesPerTick }}</b-badge>
-                    <b-badge pill>Specialists: {{ data.item.gameSettings.allowedSpecialists.length }}</b-badge>
-                    <b-badge pill v-if="data.item.gameSettings.isPrivate" variant="danger">Private</b-badge>
-                    <b-badge pill v-if="data.item.gameSettings.isAnonymous" variant="success">Anonymous</b-badge>
-                    <b-badge pill v-if="data.item.gameSettings.isRanked" variant="warning">Ranked</b-badge>
-                </template>
+                    <template #cell(roomStatus)="data">
+                        {{ data.item.roomStatus }}
+                        <b-badge v-if="data.item.roomStatus == 'Ongoing'" variant="success">Tick: {{ getCurrentTick(data.item.timeStarted, data.item.gameSettings.minutesPerTick) }}</b-badge>
+                    </template>
 
-                <template #cell(mapConfiguration)="data">
-                    Player Outposts: {{ data.item.mapConfiguration.outpostsPerPlayer }}
-                </template>
+                    <template #cell(gameSettings)="data">
+                        <b-badge pill>{{ data.item.gameSettings.goal }}</b-badge><b-badge pill>Minutes Per Tick: {{ data.item.gameSettings.minutesPerTick }}</b-badge>
+                        <b-badge pill>Specialists: {{ data.item.gameSettings.allowedSpecialists.length }}</b-badge>
+                        <b-badge pill v-if="data.item.gameSettings.isPrivate" variant="danger">Private</b-badge>
+                        <b-badge pill v-if="data.item.gameSettings.isAnonymous" variant="success">Anonymous</b-badge>
+                        <b-badge pill v-if="data.item.gameSettings.isRanked" variant="warning">Ranked</b-badge>
+                    </template>
 
-                <template #cell(timeCreated)="data">
-                    {{ getFriendlyDate(data.item.timeCreated) }}
-                </template>
+                    <template #cell(mapConfiguration)="data">
+                        Player Outposts: {{ data.item.mapConfiguration.outpostsPerPlayer }}
+                    </template>
 
-                <template #cell(timeStarted)="data">
-                    {{ getFriendlyDate(data.item.timeStarted) }}
-                </template>
+                    <template #cell(timeCreated)="data">
+                        {{ getFriendlyDate(data.item.timeCreated) }}
+                    </template>
 
-                <template #cell(expiresAt)="data">
-                    {{ getFriendlyDate(data.item.expiresAt) }}
-                </template>
+                    <template #cell(timeStarted)="data">
+                        {{ getFriendlyDate(data.item.timeStarted) }}
+                    </template>
 
-                <template #cell(playersInLobby)="data">
-                    <b-badge pill v-if="data.item.gameSettings.maxPlayers == data.item.playersInLobby.length" variant="danger">{{ data.item.playersInLobby.length }} / {{ data.item.gameSettings.maxPlayers }}</b-badge>
-                    <b-badge pill v-else variant="success">{{ data.item.playersInLobby.length }} / {{ data.item.gameSettings.maxPlayers }}</b-badge>
-                    {{ data.item.playersInLobby.map(it => it.username).join(", ") }}
-                </template>
+                    <template #cell(expiresAt)="data">
+                        {{ getFriendlyDate(data.item.expiresAt) }}
+                    </template>
 
-                
-                <!-- Activity Log Fields -->
-                <template #cell(timeProcessed)="data">
-                    {{ getFriendlyDate(data.item.timeProcessed) }}
-                </template>
+                    <template #cell(playersInLobby)="data">
+                        <b-badge pill v-if="data.item.gameSettings.maxPlayers == data.item.playersInLobby.length" variant="danger">{{ data.item.playersInLobby.length }} / {{ data.item.gameSettings.maxPlayers }}</b-badge>
+                        <b-badge pill v-else variant="success">{{ data.item.playersInLobby.length }} / {{ data.item.gameSettings.maxPlayers }}</b-badge>
+                        {{ data.item.playersInLobby.map(it => it.username).join(", ") }}
+                    </template>
 
-                <template #empty="scope">
-                    <b-alert show variant="info" v-if="!hasQueried">Perform a query to view results. Adding no filters will query all {{ selectedTab }}</b-alert>
-                    <b-alert show variant="warning" v-else>No {{ selectedTab }}</b-alert>
-                </template>
-            </b-table>
-        </b-card>
+                    
+                    <!-- Activity Log Fields -->
+                    <template #cell(timeProcessed)="data">
+                        {{ getFriendlyDate(data.item.timeProcessed) }}
+                    </template>
+
+                    <template #empty="scope">
+                        <b-alert show variant="info" v-if="!hasQueried">Perform a query to view results. Adding no filters will query all {{ selectedTab }}</b-alert>
+                        <b-alert show variant="warning" v-else>No {{ selectedTab }}</b-alert>
+                    </template>
+                </b-table>
+            </b-container>        
+        </TextContent>
         </b-container>
     </div>
 </template>
@@ -141,9 +157,10 @@
 import api from "../classes/Api";
 import moment from "moment";
 import DynamicForm from "../components/ApiForms/DynamicForm.vue"
+import TextContent from "../components/global/TextContent.vue";
 
 export default {
-    components: { DynamicForm },
+    components: { DynamicForm, TextContent },
     name: 'admin',
     data() {
         return {
@@ -395,9 +412,12 @@ export default {
 
 <style>
 
-.sea-bg {
-    background: url("../assets/sea.png");
-    color: rgb(204, 204, 204)
+.table {
+    color: rgb(201, 201, 201);
+}
+
+.maxHeight {
+    height: 100%;
 }
 
 </style>

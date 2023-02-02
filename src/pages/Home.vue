@@ -1,12 +1,14 @@
 <template>
     <div>
-        <Hero class="sea-bg">
+        <Hero>
             <template slot="title">Welcome to {{ $t('appName') }}</template>
             <template slot="header">Prepare to get betrayed</template>
             <template slot="description">
                 <p class="mt-50">Create alliances, outplay your enemies, and backstab your friends. {{ $t('appName') }} combines strategy and social engineering as you fight your way to victory.</p>
             </template>
-            <app-download></app-download>
+            <b-container>
+                <app-download></app-download>
+            </b-container>
         </Hero>
     </div>
 </template>
@@ -36,12 +38,7 @@ export default {
 <style lang="scss">
 
 .mt-50 {
-    margin-top: 150px;
-}
-
-.sea-bg {
-    background: url("../assets/sea.png");
-    color: rgb(204, 204, 204)
+    margin-top: 100px;
 }
 
 .appNameHeader {

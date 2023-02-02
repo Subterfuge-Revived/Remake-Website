@@ -1,5 +1,5 @@
 <template>
-    <b-jumbotron class="no-vertical">
+    <b-jumbotron class="no-vertical no-bg">
         <div class="text-center">
             <p class="appNameHeader"><slot name="title"></slot></p>
             <p class="headerText"><slot name="header"></slot></p>
@@ -11,6 +11,11 @@
 </template>
 
 <style>
+
+.no-bg {
+    background-color: rgba(0,0,0,0);
+}
+
 .appNameHeader {
     font-size: 70px;
     color: white;
