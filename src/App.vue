@@ -2,7 +2,7 @@
   <body>
     <div id="app">
       <navbar></navbar>
-      <router-view id="view"/>
+      <router-view id="view" :key="$route.fullPath"/>
     </div>
   </body>
 </template>

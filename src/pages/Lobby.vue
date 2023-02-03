@@ -1,11 +1,11 @@
 <template>
     <div>
         <b-container v-if="lobby != null">
-            <b-card>
+            <TextContent class="p-4">
                 <b-container class="pb-4" v-if="currentUserAccount.claims.includes('Administrator')">
-                    <b-row>
+                    <b-row v-if="lobby.roomStatus !== 'Closed'">
                         <b-col :key="updateKey">
-                            <b-button-group>
+                            <b-button-group >
                                 <b-button variant="warning" v-if="isGamePaused()" @click="confirmAction('unpause game')">Unpause Game</b-button>
                                 <b-button variant="warning" v-else @click="confirmAction('pause game')">Pause Game</b-button>
                                 <b-button variant="danger" @click="confirmAction('close lobby')">Close Lobby</b-button>
@@ -15,11 +15,11 @@
                 </b-container>
                 <h2>{{ lobby.roomName }} <b-badge class="m-1" pill :variant=getBadgeColor()>{{ lobby.roomStatus }}</b-badge></h2>
 
-                <b-row class="p-3">
+                <b-row class="p-3 greyText">
                     <b-col>
                         <b-container>
                             <p>
-                                Created On: {{ getFriendlyDate(lobby.timeCreated) }}
+                                Created On: {{ getFriendlyDate(lobby.timeCreated) }} <br/>
                                 Minutes Per Tick: {{ lobby.gameSettings.minutesPerTick }} <br/>
                             </p>
                             
@@ -29,7 +29,7 @@
                                 Current Tick: {{ getCurrentTick() }} <br/>
                             </p>
                         </b-container>
-                        <b-container class="p-3">
+                        <TextContent class="p-3">
                             <b-tabs card content-class="mt-3">
                                 <b-tab active title="Game Settings">
                                     <b-container>
@@ -52,13 +52,15 @@
                                     </b-container>
                                 </b-tab>
                             </b-tabs>
-                        </b-container>
+                        </TextContent>
                     </b-col>
                     <b-col>
                         <h2>Players in Lobby</h2>
                         <b-table :items="lobby.playersInLobby" :fields="playerFields" show-empty responsive selectable small @row-selected="(event) => goToUser(event[0].id)">
                             <template #cell(username)="data">
-                                {{ data.item.username }}<b-badge class="m-1" pill v-for="item in data.item.claims" :key=item>{{ item }}</b-badge><b-badge class="m-1" pill v-if="isPlayerTheCreator(data.item.id)" variant="success">Creator</b-badge>
+                                {{ data.item.username }}<b-badge class="m-1" pill v-for="item in data.item.claims" :key=item>{{ item }}</b-badge>
+                                <b-badge class="m-1" pill v-if="isPlayerTheCreator(data.item.id)" variant="success">Creator</b-badge>
+                                <b-badge class="m-1" pill v-if="isBanned(data.item)" variant="danger">Banned</b-badge>
                             </template>
 
                             <template #cell(pseudonyms)="data">
@@ -67,7 +69,7 @@
 
                             <template #cell(actions)="data">    
                                 <b-button-group>
-                                    <b-button variant="danger" v-if="currentUserAccount.claims.includes('Administrator')" @click="confirmAction('kick player', data.item)">Kick player</b-button>
+                                    <b-button variant="danger" v-if="currentUserAccount.claims.includes('Administrator') && lobby.roomStatus !== 'Closed'" @click="confirmAction('kick player', data.item)">Kick player</b-button>
                                     <b-button variant="danger" v-if="currentUserAccount.claims.includes('Administrator')" @click="confirmAction('ban player', data.item)">Ban player</b-button>
                                 </b-button-group>
                             </template>
@@ -75,7 +77,7 @@
                     </b-col>
                 </b-row>
             
-            <b-card class="m-3">
+            <TextContent class="m-3">
                 <b-tabs card content-class="mt-3">
                     <b-tab active>
                         <template #title>
@@ -97,10 +99,10 @@
                         </template>
 
                         <div class="accordion" role="tablist">
-                            <b-card no-body class="mb-1" v-for="group in groups" :key="group.id">
-                                <b-card-header header-tag="header" class="p-1" role="tab">
-                                    <b-button block v-b-toggle="group.id" variant="info" @click="getGroupMessages(group.id)">{{ getGroupMembers(group) }}</b-button>
-                                </b-card-header>
+                            <TextContent no-body class="mb-1" v-for="group in groups" :key="group.id">
+                                <b-button header-tag="header" role="tab" block v-b-toggle="group.id" variant="info" @click="getGroupMessages(group.id)">
+                                    <p style="text-align: start;">{{ getGroupMembers(group) }}</p>
+                                </b-button>
                                 <b-collapse :id="group.id" accordion="message-group-accordion" role="tabpanel">
                                     <b-card-body :key="updateKey">
                                         <b-card-text>
@@ -110,34 +112,36 @@
                                         </b-card-text>
                                     </b-card-body>
                                 </b-collapse>
-                            </b-card>
+                            </TextContent>
                         </div>
                     </b-tab>
                 </b-tabs>
-            </b-card>
-            </b-card>
+            </TextContent>
+            </TextContent>
         </b-container>
 
         <b-modal id="confirm-modal" title="Confirm" v-model="confirm.show" @ok="confirm.onConfirm">
-            <b-alert variant="danger" show>You are about to ban: <b>{{ banData.user.username }}</b></b-alert>
-            <b-form v-if="this.confirm.confirmAction === 'ban player'" class="m-3">
-                <b-container>
+            <div v-if="this.confirm.confirmAction === 'ban player'">
+                <b-alert variant="danger" show>You are about to ban: <b>{{ banData.user.username }}</b></b-alert>
+                <b-form class="m-3">
                     <b-container>
-                        <b-button @click="setOneDayBan">One Day</b-button>
-                        <b-button @click="setOneWeekBan">One Week</b-button>
-                        <b-button @click="setForeverBan">Forever</b-button>
+                        <b-container>
+                            <b-button @click="setOneDayBan">One Day</b-button>
+                            <b-button @click="setOneWeekBan">One Week</b-button>
+                            <b-button @click="setForeverBan">Forever</b-button>
+                        </b-container>
+                        <b-input-group prepend="Until" class="p-3">
+                            <b-form-datepicker v-model="banData.until" value-as-date></b-form-datepicker>
+                        </b-input-group>
+                        <b-input-group prepend="Reason" class="p-3">
+                            <b-form-textarea v-model="banData.reason" placeholder="Reason for ban (shown to player)" trim></b-form-textarea>
+                        </b-input-group>
+                        <b-input-group prepend="Admin Notes" class="p-3" is-text>
+                            <b-form-textarea v-model="banData.adminNotes" type="text" placeholder="Extra administrator notes (only seen by admins)" trim></b-form-textarea>
+                        </b-input-group>
                     </b-container>
-                    <b-input-group prepend="Until" class="p-3">
-                        <b-form-datepicker v-model="banData.until" value-as-date></b-form-datepicker>
-                    </b-input-group>
-                    <b-input-group prepend="Reason" class="p-3">
-                        <b-form-textarea v-model="banData.reason" placeholder="Reason for ban (shown to player)" trim></b-form-textarea>
-                    </b-input-group>
-                    <b-input-group prepend="Admin Notes" class="p-3" is-text>
-                        <b-form-textarea v-model="banData.adminNotes" type="text" placeholder="Extra administrator notes (only seen by admins)" trim></b-form-textarea>
-                    </b-input-group>
-                </b-container>
-            </b-form>
+                </b-form>
+            </div>
 
             <p class="my-4">Are you sure you want to {{ confirm.confirmAction }}?</p>
         </b-modal>
@@ -145,11 +149,13 @@
 </template>
 
 <script>
+import TextContent from "../components/global/TextContent.vue";
 import api from "../classes/Api";
 import moment from "moment";
 
 export default {
     name: 'lobby',
+    components: { TextContent },
     data() {
         return {
             selectedTab: "lobbies",
@@ -387,7 +393,10 @@ export default {
         },
         relativeTime(currentTime) {
             return moment(currentTime).fromNow()
-        }
+        },
+        isBanned(player) {
+            return new Date(player.bannedUntil) > new Date()
+        },
     },
     created() {
         this.getLobby();
@@ -398,5 +407,11 @@ export default {
 </script>
 
 <style>
+.table {
+    color: rgb(201, 201, 201);
+}
 
+.greyText {
+    color: rgb(201, 201, 201);
+}
 </style>

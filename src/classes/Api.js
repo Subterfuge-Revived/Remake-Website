@@ -337,6 +337,26 @@ let api = {
               Authorization: 'Bearer ' + token //the token is a variable which holds the token
             }
         });
+    },
+    banIp(banRequest) {
+        var url = `http://${CONFIG.serverUrl}/api/admin/banIp`
+        var token = localStorage.getItem('subterfuge_access_token');
+
+        return Axios.post(url, banRequest, {
+            headers: {
+              Authorization: 'Bearer ' + token //the token is a variable which holds the token
+            }
+        });
+    }, 
+    updateRoles(accountId, updateRolesData) {
+        var url = `http://${CONFIG.serverUrl}/api/user/${accountId}/roles`
+        var token = localStorage.getItem('subterfuge_access_token');
+
+        return Axios.post(url, updateRolesData, {
+            headers: {
+              Authorization: 'Bearer ' + token //the token is a variable which holds the token
+            }
+        });
     }
 }
 

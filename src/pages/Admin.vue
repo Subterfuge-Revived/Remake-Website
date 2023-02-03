@@ -79,13 +79,32 @@
 
             <b-container class="p-4 white" style="margin: auto">
                 <b-table :items="queryResults" responsive selectable small @row-selected="goTo" show-empty hover>
+                    <template #cell(id)="data">
+                        <div v-b-popover.hover.top="data.item.id" title="Id">
+                            {{ data.item.id.slice(0, 10) + "....." }}
+                        </div>
+                    </template>
+
                     <!-- User Template Fields -->
                     <template #cell(claims)="data">
-                        {{ data.item.claims.join(", ") }}
+                        <b-badge class="m-1" pill v-for="item in data.item.claims" :key=item :variant="getBadgeColor(item)">{{ item }}</b-badge>
+                        <b-badge class="m-1" pill v-if="isBanned(data.item)" variant="danger">Banned</b-badge>
                     </template>
 
                     <template #cell(multiboxAccounts)="data">
                         {{ data.item.multiboxAccounts.map(it => it.user.username).join(", ") }}
+                    </template>
+
+                    <template #cell(deviceIdentifier)="data">
+                        <div v-b-popover.hover.top="data.item.deviceIdentifier" title="Device ID">
+                            {{ data.item.deviceIdentifier.slice(0, 10) + "....." }}
+                        </div>
+                    </template>
+
+                    <template #cell(phoneNumberHash)="data">
+                        <div v-b-popover.hover.top="data.item.phoneNumberHash" title="Phone Number Hash">
+                            {{ data.item.phoneNumberHash.slice(0, 10) + "....." }}
+                        </div>
                     </template>
 
                     <template #cell(dateCreated)="data">
@@ -405,6 +424,21 @@ export default {
         },
         getCurrentTick(startTime, minutesPerTick) {
             return moment().diff(moment(startTime), 'minutes') / minutesPerTick
+        },
+        getBadgeColor(roleName) {
+            switch(roleName) {
+                case "Administrator":
+                    return "primary";
+                case "User":
+                    return "secondary";
+                case "EmailVerified":
+                    return "success";
+                case "Banned":
+                    return "danger"
+            }
+        },
+        isBanned(account) {
+            return new Date(account.bannedUntil) > new Date()
         },
     }
 }
