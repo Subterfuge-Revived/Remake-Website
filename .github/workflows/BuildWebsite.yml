@@ -53,6 +53,6 @@ jobs:
       uses: crazy-max/ghaction-github-pages@v1.5.1
       with:
         # Build directory to deploy
-        build_dir: out/dist/
+        build_dir: out/
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
