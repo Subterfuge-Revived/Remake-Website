@@ -25,6 +25,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    # Install Git for gh-pages deploy
+    - name: Install git
+      run: apk add --no-cache git
+
     # Install nuget packages
     - name: Install packages
       run: npm install
