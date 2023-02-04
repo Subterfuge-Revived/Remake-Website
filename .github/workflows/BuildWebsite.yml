@@ -52,7 +52,7 @@ jobs:
       uses: canastro/copy-file-action@master
       with:
         source: dist/.
-        target: out/dist/.
+        target: out/.
         flags: '-r'
     - name: GitHub Pages
       uses: crazy-max/ghaction-github-pages@v1.5.1
