@@ -23,21 +23,34 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    # Install Git for gh-pages deploy
+    - name: Install git
+      run: apk add --no-cache git
+
     # Install nuget packages
     - name: Install packages
       run: npm install
     - name: Build website
       run: npm run build
+    - name: Make out directory
+      run: mkdir out
+    - name: Make out dist directory
+      run: mkdir out/dist
     - name: Copy index
       uses: canastro/copy-file-action@master
       with:
         source: index.html
         target: out/index.html
+    - name: Copy index
+      uses: canastro/copy-file-action@master
+      with:
+        source: 404.html
+        target: out/404.html
     - name: Copy dist
       uses: canastro/copy-file-action@master
       with:
         source: dist/.
-        target: out/dist/.
+        target: out/.
         flags: '-r'
     - name: GitHub Pages
       uses: crazy-max/ghaction-github-pages@v1.5.1

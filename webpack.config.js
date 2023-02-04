@@ -1,18 +1,30 @@
 let path = require('path');
 let webpack = require('webpack');
-const envConfig = require('./config.json');
+let dotenv = require('dotenv');
+
+dotenv.config({ path:  './.env.'+ process.env.NODE_ENV, debug: true })
+let config = {
+  'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+  'BASE_URL': JSON.stringify(process.env.BASE_URL),
+  'VUE_APP_TITLE': JSON.stringify(process.env.VUE_APP_TITLE),
+  'VUE_APP_ENVIRONMENT': JSON.stringify(process.env.VUE_APP_ENVIRONMENT),
+  'VUE_APP_SERVER_URL': JSON.stringify(process.env.VUE_APP_SERVER_URL),
+}
+
+console.log("The generated config is: " + JSON.stringify(config))
 
 module.exports = {
   entry: './src/main.js',
   output: {
-    path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
+    path: path.resolve(__dirname, './dist/'),
+    publicPath: process.env.BASE_URL,
     filename: 'build.js'
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(envConfig.environment)
-    })
+      config: config,
+      BASE_URL: JSON.stringify(process.env.BASE_URL),
+    }),
   ],
   module: {
     rules: [
@@ -33,13 +45,13 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(png|jpe?g|gif|svg)$/,
+        test: /\.(png|jpe?g|gif|svg|jpg)$/,
         use: [
           {
             loader: 'file-loader',
             options: {
               name: '[name].[contenthash].[ext]',
-              outputPath: 'assets',
+              outputPath: './assets',
               esModule: false
             }
           }
@@ -78,7 +90,8 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     noInfo: true,
-    overlay: true
+    overlay: true,
+    open: true,
   },
   performance: {
     hints: false

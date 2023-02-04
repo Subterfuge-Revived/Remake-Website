@@ -8,9 +8,9 @@
     "url": "https://github.com/Subterfuge-Revived/Remake-Website.git"
   },
   "scripts": {
-    "dev": "webpack-dev-server --hot --host 0.0.0.0 --port 80",
-    "test": "cross-env NODE_ENV=test nyc mocha-webpack test/**/**.test.js --require test/testSetup.js",
-    "build": "webpack --progress --hide-modules",
+    "dev": "NODE_ENV=dev webpack-dev-server --hot --host localhost --port 80 --",
+    "test": "NODE_ENV=test cross-env nyc mocha-webpack test/**/**.test.js --require test/testSetup.js",
+    "build": "NODE_ENV=production webpack --progress --hide-modules",
     "docs": "vuese gen && vuese serve --open"
   },
   "babel": {
@@ -45,15 +45,15 @@
   ],
   "dependencies": {
     "@vuese/cli": "^2.10.0",
-    "axios": "^0.18.1",
+    "axios": "0.21.1",
     "bootstrap": "^4.5.0",
     "bootstrap-vue": "^2.14.0",
-    "dompurify": "2.0.7",
+    "dompurify": "2.0.17",
     "dotenv": "^6.2.0",
     "jquery": "^3.3.1",
-    "lodash": "^4.17.20",
-    "moment": "^2.24.0",
-    "validator": "^10.11.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "validator": "^13.7.0",
     "vue": "^2.6.7",
     "vue-awesome": "4.0.2",
     "vue-headful": "^2.0.1",
@@ -64,7 +64,7 @@
     "webpack-cli": "^3.3.12"
   },
   "devDependencies": {
-    "@babel/core": "7.1.2",
+    "@babel/core": "^7.20.12",
     "@babel/register": "^7.0.0",
     "@vue/test-utils": "1.0.0-beta.20",
     "babel-core": "6.26.0",
@@ -77,14 +77,13 @@
     "cross-env": "5.0.5",
     "css-loader": "^0.28.11",
     "file-loader": "6.0.0",
-    "jsdom": "11.11.0",
+    "jsdom": "16.5.0",
     "jsdom-global": "^3.0.2",
     "mini-css-extract-plugin": "^0.9.0",
     "mocha": "^5.2.0",
     "mocha-webpack": "^1.1.0",
-    "node-sass": "^4.14.1",
     "nyc": "^13.2.0",
-    "sass": "^1.26.5",
+    "sass": "^1.57.1",
     "sass-loader": "^7.3.1",
     "sinon": "6.1.3",
     "style-loader": "^0.21.0",
@@ -92,6 +91,6 @@
     "vue-loader": "^13.0.5",
     "vue-template-compiler": "^2.6.7",
     "webpack": "^3.6.0",
-    "webpack-dev-server": "^3.1.11"
+    "webpack-dev-server": "^2.9.4"
   }
 }

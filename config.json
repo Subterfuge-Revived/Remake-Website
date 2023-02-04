@@ -1,9 +1,0 @@
-{
-    "development": {
-      "id": "development"
-    },
-    "production": {
-      "id": "production"
-    },
-    "environment": "development"
-  }
