@@ -1,11 +1,13 @@
 {
   "development": {
     "id": "development",
-    "serverUrl": "localhost:5295"
+    "serverUrl": "localhost:5295",
+    "baseUrl": ""
   },
   "production": {
     "id": "production",
-    "serverUrl": "server:5295"
+    "serverUrl": "server:5295",
+    "baseUrl": "/Remake-Website"
   },
   "environment": "development"
 }

@@ -6,7 +6,7 @@ module.exports = {
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
+    publicPath: './dist/',
     filename: 'build.js'
   },
   plugins: [
@@ -40,7 +40,7 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: '[name].[contenthash].[ext]',
-              outputPath: 'assets',
+              outputPath: './dist/assets',
               esModule: false
             }
           }
