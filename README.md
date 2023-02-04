@@ -7,9 +7,9 @@
 [![issues-closed-raw](https://img.shields.io/github/issues-closed/Subterfuge-Revived/Remake-Website)](https://github.com/Subterfuge-Revived/Remake-Website/issues?q=is%3Aclosed+)
 [![Banner](banner.png)]()
 
-# Remake-Website
+# [Remake-Website](https://subterfuge-revived.github.io/Remake-Website/)
 
-This repository contains the website files for hosting the new game's website. The website is used for advertising the game, providing a dev-log, and allowing users to interact with various details about their user accounts. It also provides contact information and support details.
+This repository contains the website files for hosting the Subterfuge: Community Edition website. All of the files in this repository generate the website that is visible on the [live subterfuge website](https://subterfuge-revived.github.io/Remake-Website/). This website is used for advertising the game, providing a dev-log, and also provides some user interaction, for example, allowing users to view account details, and also allows administrators to view and access administrative controls and server information.
 
 ## Setup
 
