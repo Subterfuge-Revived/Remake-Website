@@ -43,6 +43,11 @@ jobs:
       with:
         source: index.html
         target: out/index.html
+    - name: Copy index
+      uses: canastro/copy-file-action@master
+      with:
+        source: 404.html
+        target: out/404.html
     - name: Copy dist
       uses: canastro/copy-file-action@master
       with:

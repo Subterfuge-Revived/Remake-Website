@@ -40,7 +40,7 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: '[name].[contenthash].[ext]',
-              outputPath: './dist/assets',
+              outputPath: './assets',
               esModule: false
             }
           }
