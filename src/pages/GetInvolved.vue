@@ -15,7 +15,7 @@
             <h1 class ="p-2 white">Roles</h1>
             <b-container style="color: black;">
                 <b-row class ="m-2 fit-height">
-                    <b-col>
+                    <b-col lg="4" class="p-2">
                         <TextContent class="fit-height">
                             <img :src="role_images.developer" class="img-fit"/>
                             <div class="p-4">
@@ -24,7 +24,7 @@
                             </div>
                         </TextContent>
                     </b-col>
-                    <b-col>
+                    <b-col lg="4" class="p-2">
                         <TextContent class="fit-height">
                             <img :src="role_images.artist" class="img-fit"/>
                             <div class="p-4">
@@ -33,8 +33,7 @@
                             </div>
                         </TextContent>
                     </b-col>
-                    <b-col>
-
+                    <b-col lg="4" class="p-2">
                         <TextContent class="fit-height">
                             <img :src="role_images.sound" class="img-fit"/>
                             <div class="p-4">
@@ -43,9 +42,7 @@
                             </div>
                         </TextContent>
                     </b-col>
-                </b-row>
-                <b-row class ="m-2">
-                    <b-col>
+                    <b-col lg="4" class="p-2">
                         <TextContent class="fit-height">
                             <img :src="role_images.game_design" class="img-fit"/>
                             <div class="p-4">
@@ -54,8 +51,7 @@
                             </div>
                         </TextContent>
                     </b-col>
-
-                    <b-col>
+                    <b-col lg="4" class="p-2">
                         <TextContent class="fit-height">
                             <img :src="role_images.management" class="img-fit"/>
                             <div class="p-4">
@@ -65,8 +61,7 @@
                             </div>
                         </TextContent>
                     </b-col>
-
-                    <b-col>
+                    <b-col lg="4" class="p-2">
                         <TextContent class="fit-height">
                             <img :src="role_images.community" class="img-fit"/>
                             <div class="p-4">
