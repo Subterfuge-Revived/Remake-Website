@@ -1,8 +1,10 @@
 import Axios from 'axios';
 
+let baseUrl = config.VUE_APP_SERVER_URL;
+
 let api = {
     tryLogin(username, password) {
-        return Axios.post(`http://${CONFIG.serverUrl}/api/user/login`, { "username": username, "password": password}).then(
+        return Axios.post(`http://${baseUrl}/api/user/login`, { "username": username, "password": password}).then(
             (response) => {
                 if(response.status == 200 && response.data.token != null) {
                     localStorage.setItem('subterfuge_access_token', response.data.token);
@@ -20,7 +22,7 @@ let api = {
         Axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('access_token')}`;
     },
     getUser(userId) {
-        var url = `http://${CONFIG.serverUrl}/api/user?userId=${userId}`
+        var url = `http://${baseUrl}/api/user?userId=${userId}`
         var token = localStorage.getItem('subterfuge_access_token');
         return Axios.get(url, {
             headers: {
@@ -29,7 +31,7 @@ let api = {
         });
     },
     getUsers(formQueryData) {
-        var url = `http://${CONFIG.serverUrl}/api/user/query?`
+        var url = `http://${baseUrl}/api/user/query?`
         var token = localStorage.getItem('subterfuge_access_token');
 
         if(formQueryData.Username != undefined) {
@@ -67,7 +69,7 @@ let api = {
         });
     },
     getLobbies(formQueryData) {
-        var url = `http://${CONFIG.serverUrl}/api/lobby?`
+        var url = `http://${baseUrl}/api/lobby?`
         var token = localStorage.getItem('subterfuge_access_token');
 
         if(formQueryData.Pagination != undefined) {
@@ -117,7 +119,7 @@ let api = {
         });
     },
     getServerLogs(formQueryData) {
-        var url = `http://${CONFIG.serverUrl}/api/admin/serverLog?`
+        var url = `http://${baseUrl}/api/admin/serverLog?`
         var token = localStorage.getItem('subterfuge_access_token');
 
         if(formQueryData.Username != undefined) {
@@ -147,7 +149,7 @@ let api = {
         });
     },
     getServerExceptions(formQueryData) {
-        var url = `http://${CONFIG.serverUrl}/api/admin/exceptions?`
+        var url = `http://${baseUrl}/api/admin/exceptions?`
         var token = localStorage.getItem('subterfuge_access_token');
 
         if(formQueryData.Username != undefined) {
@@ -185,7 +187,7 @@ let api = {
         });
     },
     getUserChatMessages(queryData) {
-        var url = `http://${CONFIG.serverUrl}/api/user/messages?`
+        var url = `http://${baseUrl}/api/user/messages?`
         var token = localStorage.getItem('subterfuge_access_token');
 
         if(queryData.UserId != undefined) {
@@ -203,7 +205,7 @@ let api = {
         });
     },
     getSpecialists(queryData) {
-        var url = `http://${CONFIG.serverUrl}/api/specialist?`
+        var url = `http://${baseUrl}/api/specialist?`
         var token = localStorage.getItem('subterfuge_access_token');
 
         if(queryData.Pagination != undefined) {
@@ -229,7 +231,7 @@ let api = {
         });
     },
     getSpecialistPackages(queryData) {
-        var url = `http://${CONFIG.serverUrl}/api/specialist/package?`
+        var url = `http://${baseUrl}/api/specialist/package?`
         var token = localStorage.getItem('subterfuge_access_token');
 
         if(queryData.Pagination != undefined) {
@@ -259,7 +261,7 @@ let api = {
         });
     },
     getPlayerBlocks(userId) {
-        var url = `http://${CONFIG.serverUrl}/api/user/${userId}/blocks`
+        var url = `http://${baseUrl}/api/user/${userId}/blocks`
         var token = localStorage.getItem('subterfuge_access_token');
 
         return Axios.get(url, {
@@ -269,7 +271,7 @@ let api = {
         });
     },
     getPlayerFriends(userId) {
-        var url = `http://${CONFIG.serverUrl}/api/user/${userId}/friends`
+        var url = `http://${baseUrl}/api/user/${userId}/friends`
         var token = localStorage.getItem('subterfuge_access_token');
 
         return Axios.get(url, {
@@ -279,7 +281,7 @@ let api = {
         });
     },
     getPlayerFriendRequests(userId) {
-        var url = `http://${CONFIG.serverUrl}/api/user/${userId}/friendRequests`
+        var url = `http://${baseUrl}/api/user/${userId}/friendRequests`
         var token = localStorage.getItem('subterfuge_access_token');
 
         return Axios.get(url, {
@@ -289,7 +291,7 @@ let api = {
         });
     },
     getGameEvents(roomId) {
-        var url = `http://${CONFIG.serverUrl}/api/room/${roomId}/events`
+        var url = `http://${baseUrl}/api/room/${roomId}/events`
         var token = localStorage.getItem('subterfuge_access_token');
 
         return Axios.get(url, {
@@ -299,7 +301,7 @@ let api = {
         });
     },
     getGroups(roomId) {
-        var url = `http://${CONFIG.serverUrl}/api/room/${roomId}/groups`
+        var url = `http://${baseUrl}/api/room/${roomId}/groups`
         var token = localStorage.getItem('subterfuge_access_token');
 
         return Axios.get(url, {
@@ -309,7 +311,7 @@ let api = {
         });
     },
     getGroupMessages(roomId, groupId, pagination = 1) {
-        var url = `http://${CONFIG.serverUrl}/api/room/${roomId}/group/${groupId}/messages?Pagination=${pagination}`
+        var url = `http://${baseUrl}/api/room/${roomId}/group/${groupId}/messages?Pagination=${pagination}`
         var token = localStorage.getItem('subterfuge_access_token');
 
         return Axios.get(url, {
@@ -319,7 +321,7 @@ let api = {
         });
     },
     submitGameEvent(roomId, gameEventData) {
-        var url = `http://${CONFIG.serverUrl}/api/room/${roomId}/events`
+        var url = `http://${baseUrl}/api/room/${roomId}/events`
         var token = localStorage.getItem('subterfuge_access_token');
 
         return Axios.post(url, gameEventData, {
@@ -329,7 +331,7 @@ let api = {
         });
     },
     banPlayer(banRequest) {
-        var url = `http://${CONFIG.serverUrl}/api/admin/banPlayer`
+        var url = `http://${baseUrl}/api/admin/banPlayer`
         var token = localStorage.getItem('subterfuge_access_token');
 
         return Axios.post(url, banRequest, {
@@ -339,7 +341,7 @@ let api = {
         });
     },
     banIp(banRequest) {
-        var url = `http://${CONFIG.serverUrl}/api/admin/banIp`
+        var url = `http://${baseUrl}/api/admin/banIp`
         var token = localStorage.getItem('subterfuge_access_token');
 
         return Axios.post(url, banRequest, {
@@ -349,7 +351,7 @@ let api = {
         });
     }, 
     updateRoles(accountId, updateRolesData) {
-        var url = `http://${CONFIG.serverUrl}/api/user/${accountId}/roles`
+        var url = `http://${baseUrl}/api/user/${accountId}/roles`
         var token = localStorage.getItem('subterfuge_access_token');
 
         return Axios.post(url, updateRolesData, {

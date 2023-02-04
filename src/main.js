@@ -16,6 +16,7 @@ Vue.component('v-icon', Icon)
 Vue.component('vue-headful', vueHeadful);
 Vue.use(BootstrapVue);
 
+
 var lang = localStorage.getItem('lang');
 if(lang == null) {
   localStorage.setItem('lang', 'en');

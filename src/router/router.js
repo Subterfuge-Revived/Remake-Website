@@ -9,49 +9,51 @@ import Login from '../pages/Login.vue';
 import Account from '../pages/Account.vue';
 import Admin from '../pages/Admin.vue';
 import Lobby from '../pages/Lobby.vue';
+import { config } from 'chai';
 
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: config.NODE_ENV === 'production' ? 'hash' : 'history',
+  base: config.BASE_URL,
   routes: [
     {
-      path: CONFIG.baseUrl + '/',
+      path: '',
       name: 'home',
       component: Home
     },
     {
-      path: CONFIG.baseUrl + '/about',
+      path: 'about',
       name: 'about',
       component: About
     },
     {
-      path: CONFIG.baseUrl + '/participate',
+      path: 'participate',
       name: 'participate',
       component: GetInvolved
     },
     {
-      path: CONFIG.baseUrl + '/blog',
+      path: 'blog',
       name: 'blog',
       component: DevBlog
     },
     {
-      path: CONFIG.baseUrl + '/login',
+      path: 'login',
       name: 'login',
       component: Login
     },
     {
-      path: CONFIG.baseUrl + '/account',
+      path: '/account',
       name: 'account',
       component: Account
     },
     {
-      path: CONFIG.baseUrl + '/lobby',
+      path: 'lobby',
       name: 'lobby',
       component: Lobby
     },
     {
-      path: CONFIG.baseUrl + '/admin',
+      path: 'admin',
       name: 'admin',
       component: Admin
     }

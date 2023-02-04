@@ -8,9 +8,9 @@
     "url": "https://github.com/Subterfuge-Revived/Remake-Website.git"
   },
   "scripts": {
-    "dev": "webpack-dev-server --env NODE_ENV=production --hot --host 0.0.0.0 --port 80",
-    "test": "cross-env NODE_ENV=test nyc mocha-webpack test/**/**.test.js --require test/testSetup.js",
-    "build": "webpack --progress --hide-modules",
+    "dev": "NODE_ENV=dev webpack-dev-server --hot --host localhost --port 80 --",
+    "test": "NODE_ENV=test cross-env nyc mocha-webpack test/**/**.test.js --require test/testSetup.js",
+    "build": "NODE_ENV=production webpack --progress --hide-modules",
     "docs": "vuese gen && vuese serve --open"
   },
   "babel": {

@@ -1,6 +1,6 @@
 <template>
   <b-navbar class="p-3" toggleable="lg" type="dark" variant="dark">
-    <b-navbar-brand href="/">{{ $t('appName') }}</b-navbar-brand>
+    <b-navbar-brand href="/">{{ config.VUE_APP_TITLE }}</b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -60,6 +60,7 @@ export default {
         user: JSON.parse(localStorage.getItem('user')),
         lang: localStorage.getItem('lang'),
         locales: ['en', 'fr', 'ja'],
+        config: config,
       };
     },
     methods: {
