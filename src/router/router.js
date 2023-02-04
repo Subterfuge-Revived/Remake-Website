@@ -13,7 +13,7 @@ import Lobby from '../pages/Lobby.vue';
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-  mode: config.NODE_ENV === 'production' ? 'hash' : 'history',
+  mode: 'history',
   base: config.BASE_URL,
   routes: [
     {
