@@ -16,8 +16,8 @@ console.log("The generated config is: " + JSON.stringify(config))
 module.exports = {
   entry: './src/main.js',
   output: {
-    path: path.resolve(__dirname, './dist'),
-    publicPath: JSON.stringify(process.env.BASE_URL) + "dist/",
+    path: path.resolve(__dirname, './dist/'),
+    publicPath: process.env.BASE_URL,
     filename: 'build.js'
   },
   plugins: [

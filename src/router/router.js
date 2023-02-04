@@ -18,27 +18,27 @@ const router = new VueRouter({
   base: config.BASE_URL,
   routes: [
     {
-      path: '',
+      path: '/',
       name: 'home',
       component: Home
     },
     {
-      path: 'about',
+      path: '/about',
       name: 'about',
       component: About
     },
     {
-      path: 'participate',
+      path: '/participate',
       name: 'participate',
       component: GetInvolved
     },
     {
-      path: 'blog',
+      path: '/blog',
       name: 'blog',
       component: DevBlog
     },
     {
-      path: 'login',
+      path: '/login',
       name: 'login',
       component: Login
     },
@@ -48,12 +48,12 @@ const router = new VueRouter({
       component: Account
     },
     {
-      path: 'lobby',
+      path: '/lobby',
       name: 'lobby',
       component: Lobby
     },
     {
-      path: 'admin',
+      path: '/admin',
       name: 'admin',
       component: Admin
     }
