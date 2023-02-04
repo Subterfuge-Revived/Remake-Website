@@ -16,7 +16,7 @@
                 <h2>{{ lobby.roomName }} <b-badge class="m-1" pill :variant=getBadgeColor()>{{ lobby.roomStatus }}</b-badge></h2>
 
                 <b-row class="p-3 greyText">
-                    <b-col>
+                    <b-col sm="12" md="6">
                         <b-container>
                             <p>
                                 Created On: {{ getFriendlyDate(lobby.timeCreated) }} <br/>
@@ -54,26 +54,9 @@
                             </b-tabs>
                         </TextContent>
                     </b-col>
-                    <b-col>
+                    <b-col sm="12" md="6">
                         <h2>Players in Lobby</h2>
-                        <b-table :items="lobby.playersInLobby" :fields="playerFields" show-empty responsive selectable small @row-selected="(event) => goToUser(event[0].id)">
-                            <template #cell(username)="data">
-                                {{ data.item.username }}<b-badge class="m-1" pill v-for="item in data.item.claims" :key=item>{{ item }}</b-badge>
-                                <b-badge class="m-1" pill v-if="isPlayerTheCreator(data.item.id)" variant="success">Creator</b-badge>
-                                <b-badge class="m-1" pill v-if="isBanned(data.item)" variant="danger">Banned</b-badge>
-                            </template>
-
-                            <template #cell(pseudonyms)="data">
-                                {{ data.item.pseudonyms.map(it => it.username).join(", ") }}
-                            </template>
-
-                            <template #cell(actions)="data">    
-                                <b-button-group>
-                                    <b-button variant="danger" v-if="currentUserAccount.claims.includes('Administrator') && lobby.roomStatus !== 'Closed'" @click="confirmAction('kick player', data.item)">Kick player</b-button>
-                                    <b-button variant="danger" v-if="currentUserAccount.claims.includes('Administrator')" @click="confirmAction('ban player', data.item)">Ban player</b-button>
-                                </b-button-group>
-                            </template>
-                        </b-table>
+                        <UserList class="p-2" :users="lobby.playersInLobby" :creatorId="lobby.creator.id" :key="updateKey"></UserList>
                     </b-col>
                 </b-row>
             
@@ -150,12 +133,13 @@
 
 <script>
 import TextContent from "../components/global/TextContent.vue";
+import UserList from "../components/global/UserList.vue";
 import api from "../classes/Api";
 import moment from "moment";
 
 export default {
     name: 'lobby',
-    components: { TextContent },
+    components: { TextContent, UserList },
     data() {
         return {
             selectedTab: "lobbies",

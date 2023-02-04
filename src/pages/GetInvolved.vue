@@ -3,11 +3,11 @@
         <Hero>
             <template slot="title">Want to help our project?</template>
             <template slot="description">Contributions are always appreciated from developers and players alike!
-                The best way to get involved is to <a href="https://discord.gg/vYRfPSQ">join our disord server</a> where we have a variety of chat channels
+                The best way to get involved is to <a href="https://discord.gg/vYRfPSQ">join our Discord server</a> where we have a variety of chat channels
                 and ways to get started.<br/>
 
                 <a class="center" href="https://discord.gg/vYRfPSQ" target="_blank"><img style="height: 150px;" src="../assets/discord.png"/></a><br/>
-                <a href="https://discord.gg/vYRfPSQ">Join us on Dicsord!</a>
+                <a href="https://discord.gg/vYRfPSQ">Join us on Discord!</a>
             </template>
         </Hero>
 

@@ -19,44 +19,59 @@ const router = new VueRouter({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: { requiresAuth: false },
     },
     {
       path: '/about',
       name: 'about',
-      component: About
+      component: About,
+      meta: { requiresAuth: false },
     },
     {
       path: '/participate',
       name: 'participate',
-      component: GetInvolved
+      component: GetInvolved,
+      meta: { requiresAuth: false },
     },
     {
       path: '/blog',
       name: 'blog',
-      component: DevBlog
+      component: DevBlog,
+      meta: { requiresAuth: false },
     },
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
+      meta: { requiresAuth: false },
     },
     {
       path: '/account',
       name: 'account',
-      component: Account
+      component: Account,
+      meta: { requiresAuth: true },
     },
     {
       path: '/lobby',
       name: 'lobby',
-      component: Lobby
+      component: Lobby,
+      meta: { requiresAuth: true },
     },
     {
       path: '/admin',
       name: 'admin',
-      component: Admin
+      component: Admin,
+      meta: { requiresAuth: true },
     }
   ]
 });
+
+router.beforeEach((to, from, next) => {
+  if(to.meta.requiresAuth && localStorage.getItem('user') == null) {
+    return { path: '/login', query: { redirect: to.fullPath } };
+  }
+  next()
+})
 
 export default router;
