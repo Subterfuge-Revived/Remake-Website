@@ -11,52 +11,52 @@
             <template slot="title">Our Team</template>
             <template slot="description">Our development team collaborates through Discord. <a href="https://discord.gg/SEyN2Bs">Join the conversation!</a></template>
             <b-container class="text-center p-4">
-                <b-row>
-                    <b-col>
+                <b-row align-h="center">
+                    <b-col md="6" lg="3">
                         <img class="rounded-circle profileBorder" src="../assets/contributors/riot.png" aria-hidden="true">
                         <h3 class="white">R10t--</h3>
                         <p>Project Lead / Lead Developer / Software Architect</p>
                     </b-col>
-                    <b-col>
+                    <b-col md="6" lg="3">
                         <img class="rounded-circle profileBorder" src="../assets/contributors/noj.png" aria-hidden="true">
                         <h3 class="white">Nojo</h3>
                         <p>Project Lead / Supervisor </p>
                     </b-col>
-                    <b-col>
+                    <b-col md="6" lg="3">
                         <img class="rounded-circle profileBorder" src="../assets/contributors/aluce.png" aria-hidden="true">
                         <h3 class="white">Aluce</h3>
                         <p>Software Architect</p>
                     </b-col>
-                    <b-col>
+                    <b-col md="6" lg="3">
                         <img class="rounded-circle profileBorder" src="../assets/contributors/cakemix.png" aria-hidden="true">
                         <h3 class="white">CakeMixV3</h3>
                         <p>Sound Art</p>
                     </b-col>
                 </b-row>
-                <b-row>
-                    <b-col>
+                <b-row align-h="center">
+                    <b-col md="6" lg="3">
                         <img class="rounded-circle profileBorder" src="../assets/contributors/lyds.png" aria-hidden="true">
                         <h3 class="white">Lyds</h3>
                         <p>Community Engagement</p>
                     </b-col>
-                    <b-col>
+                    <b-col md="6" lg="3">
                         <img class="rounded-circle profileBorder" src="../assets/contributors/niverio.png" aria-hidden="true">
                         <h3 class="white">Niverio</h3>
                         <p>Game Design</p>
                     </b-col>
-                    <b-col>
+                    <b-col md="6" lg="3">
                         <img class="rounded-circle profileBorder" src="../assets/contributors/TW2000.png" aria-hidden="true">
                         <h3 class="white">TW2000</h3>
                         <p>Developer</p>
                     </b-col>
-                    <b-col>
+                    <b-col md="6" lg="3">
                         <img class="rounded-circle profileBorder" src="../assets/contributors/xatev.png" aria-hidden="true">
                         <h3 class="white">XATEV</h3>
                         <p>Developer</p>
                     </b-col>
                 </b-row>
-                <b-row>
-                    <b-col>
+                <b-row align-h="center">
+                    <b-col md="6" lg="3">
                         <img class="rounded-circle profileBorder" src="../assets/contributors/chip.gif" aria-hidden="true">
                         <h3 class="white">Chipmunk</h3>
                         <p>Supervisor</p>

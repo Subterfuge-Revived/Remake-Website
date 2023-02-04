@@ -3,13 +3,13 @@
     <h4 class="p-3 text-center">Currently under development!</h4>
     <p class="descriptionText text-center"> Expected launch: Unknown </p>
     <b-row class="download-padding">
-        <b-col class="strikethrough">
+        <b-col sm class="strikethrough">
             <img class="blocked-image " :src=icons.ios />
         </b-col>
-        <b-col class="strikethrough">
+        <b-col sm class="strikethrough">
             <img class="blocked-image strikethrough" :src=icons.google />
         </b-col>
-        <b-col class="strikethrough">
+        <b-col sm class="strikethrough">
             <img class="blocked-image strikethrough" :src=icons.steam />
         </b-col>
     </b-row>

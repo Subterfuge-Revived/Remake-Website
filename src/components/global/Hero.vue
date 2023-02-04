@@ -5,7 +5,7 @@
             <p class="headerText"><slot name="header"></slot></p>
         </div>
 
-        <b-container class="text-center wide-40"><p class="descriptionText"><slot name="description"></slot></p></b-container>
+        <b-container class="text-center"><p class="descriptionText"><slot name="description"></slot></p></b-container>
         <slot></slot>
     </b-jumbotron>
 </template>
@@ -28,10 +28,6 @@
 
 .descriptionText {
     font-size: 20px;
-}
-
-.wide-40 {
-    width: 40%;
 }
 
 .no-vertical {

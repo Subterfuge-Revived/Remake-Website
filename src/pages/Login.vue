@@ -1,10 +1,10 @@
 <template>
     <div>
         <Hero>
-            <template slot="title">Login to {{ $t('appName') }}</template>
-            <b-container class="text-center">
+            <template slot="title">Login to {{ config.VUE_APP_TITLE }}</template>
+            <b-container sm="12" md="4" class="text-center">
                 <TextContent class="login-box text-center">
-                        <b-container class="p-5">
+                        <b-container sm="12" md="4" class="p-5">
                                 <b-form>
                                 <b-form-group>
                                     <b-input-group prepend="Username" class="mb-2 mr-sm-2 mb-sm-0">
@@ -50,6 +50,7 @@ export default {
             username: '',
             password: '',
             isError: false,
+            config: config,
         }
     },
     methods: {
@@ -85,7 +86,6 @@ export default {
 }
 
 .login-box {
-    width: 50%;
     border-radius: 10px;
     margin: auto;
 }

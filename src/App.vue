@@ -1,8 +1,8 @@
 <template>
   <body>
-    <div id="app">
+    <div id="app" :key="$route.fullPath">
       <navbar></navbar>
-      <router-view id="view" :key="$route.fullPath"/>
+      <router-view id="view"/>
     </div>
   </body>
 </template>

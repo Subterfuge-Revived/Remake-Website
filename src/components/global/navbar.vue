@@ -13,8 +13,8 @@
 
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-          <b-nav-item href="https://discord.gg/vYRfPSQ" target="_blank">
-            <img style="height: 30px;" :src=icons.discord />
+        <b-nav-item href="https://discord.gg/vYRfPSQ" target="_blank">
+          <img style="height: 30px;" :src=icons.discord />
         </b-nav-item>
         
         <b-nav-item href="https://github.com/Subterfuge-Revived" target="_blank">
@@ -36,7 +36,11 @@
           <b-dropdown-item v-if="isAdmin()"  @click="goTo('admin')">Admin Portal</b-dropdown-item>
           <b-dropdown-item @click="signout()">Sign Out</b-dropdown-item>
         </b-nav-item-dropdown>
-        <b-button variant="dark" v-else @click="goTo('login')">Login</b-button>
+
+        <b-navbar-nav v-if="user == null">
+          <b-nav-item  @click="goTo('login')">Login</b-nav-item>
+        </b-navbar-nav>
+
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
@@ -61,6 +65,7 @@ export default {
         lang: localStorage.getItem('lang'),
         locales: ['en', 'fr', 'ja'],
         config: config,
+        storage: localStorage,
       };
     },
     methods: {
@@ -69,8 +74,8 @@ export default {
           this.lang = key;
         },
         signout() {
-          localStorage.setItem('user', null);
-          localStroage.setItem('access_token', null);
+          this.storage.setItem('user', null);
+          this.storage.setItem('access_token', null);
           this.$router.push({ path: '/' });
         },
         goTo(path, query) {

@@ -9,6 +9,14 @@
                         </h2>
 
                     <TextContent class="white p-4">
+                        <b-form-group label="AKA:">
+                            <b-form-input
+                            id="input-1"
+                            :value="account.pseudonyms"
+                            disabled
+                            ></b-form-input>
+                        </b-form-group>
+
                         <b-form-group label="Account Created">
                             <b-form-input
                             id="input-1"
@@ -55,44 +63,17 @@
 
                         <b-container class="p-4" v-if="selectedTab == 'social'">
                             <b-row>
-                                <b-col>
+                                <b-col md="12" lg="4">
                                     <h2>Friends</h2>
-                                    <b-table :items="friends" responsive selectable small show-empty @row-selected="goto">
-                                        <template #cell(id)="data">
-                                            <div v-b-popover.hover.top="data.item.id" title="Id">
-                                                {{ data.item.id.slice(0, 10) + "....." }}
-                                            </div>
-                                        </template>
-                                        <template #empty="scope">
-                                            <b-alert show variant="warning">No Friends</b-alert>
-                                        </template>
-                                    </b-table>
+                                    <UserList :users="friends" :key="updateKey"></UserList>
                                 </b-col>
-                                <b-col>
+                                <b-col md="12" lg="4">
                                     <h2>Friend Requests</h2>
-                                    <b-table :items="friendRequests" responsive selectable small show-empty @row-selected="goto">
-                                        <template #cell(id)="data">
-                                            <div v-b-popover.hover.top="data.item.id" title="Id">
-                                                {{ data.item.id.slice(0, 10) + "....." }}
-                                            </div>
-                                        </template>
-                                        <template #empty="scope">
-                                            <b-alert show variant="warning">No Friend Requests</b-alert>
-                                        </template>
-                                    </b-table>
+                                    <UserList :users="friendRequests" :key="updateKey"></UserList>
                                 </b-col>
-                                <b-col>
+                                <b-col md="12" lg="4">
                                     <h2>Blocked Users</h2>
-                                    <b-table :items="blockedUsers" responsive selectable small show-empty @row-selected="goto">
-                                        <template #cell(id)="data">
-                                            <div v-b-popover.hover.top="data.item.id" title="Id">
-                                                {{ data.item.id.slice(0, 10) + "....." }}
-                                            </div>
-                                        </template>
-                                        <template #empty="scope">
-                                            <b-alert show variant="warning">No Blocked Users</b-alert>
-                                        </template>
-                                    </b-table>
+                                    <UserList :users="blockedUsers" :key="updateKey"></UserList>
                                 </b-col>
                             </b-row>
                         </b-container>
@@ -249,11 +230,12 @@
 import Hero from "../components/global/Hero";
 import TextContent from "../components/global/TextContent.vue";
 import AppDownload from "../components/global/AppDownload.vue";
+import UserList from "../components/global/UserList.vue";
 import api from "../classes/Api";
 import moment from "moment";
 
 export default {
-    components: { Hero, AppDownload, TextContent },
+    components: { Hero, AppDownload, TextContent, UserList },
     name: 'account',
     state: {},
     data() {

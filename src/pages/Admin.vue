@@ -1,59 +1,57 @@
 <template>
     <div class="text-center">
         <b-container class="p-5" style="color: black;">
-            <b-row class="p-5">
-                <b-col>
+            <b-row align-h="center">
+                <b-col sm="6" md="4" class="p-2">
                     <TextContent class="p-3 maxHeight">
                         <h4>Status</h4>
                         <p>Online</p>
                     </TextContent>
                 </b-col>
-                <b-col>
+                <b-col sm="6" md="4" class="p-2">
                     <TextContent class="p-3 maxHeight">
                         <h4>Uptime</h4>
                         <p>TODO</p>
                     </TextContent>
                 </b-col>
-                <b-col>
+                <b-col sm="6" md="4" class="p-2">
                     <TextContent class="p-3 maxHeight">
                         <h4>CPU %</h4>
                         <p>TODO</p>
                     </TextContent>
                 </b-col>
-                <b-col>
+                <b-col sm="6" md="4" class="p-2">
                     <TextContent class="p-3 maxHeight">
                         <h4>Memory %</h4>
                         <p>TODO</p>
                     </TextContent>
                 </b-col>
-                <b-col>
+                <b-col sm="6" md="4" class="p-2">
                     <TextContent class="p-3 maxHeight">
                         <h4>Disk %</h4>
                         <p>TODO</p>
                     </TextContent>
                 </b-col>
-            </b-row>
-            <b-row class="p-5">
-                <b-col>
+                <b-col sm="6" md="4" class="p-2">
                     <TextContent class="p-3 maxHeight">
                         <!-- https://github.com/samber/chartjs-plugin-datasource-prometheus -->
                         <h4>Total Players</h4>
                         <p>TODO</p>
                     </TextContent>
                 </b-col>
-                <b-col>
+                <b-col sm="6" md="4" class="p-2">
                     <TextContent class="p-3 maxHeight">
                         <h4>Ongoing Lobbies</h4>
                         <p>TODO</p>
                     </TextContent>
                 </b-col>
-                <b-col>
+                <b-col sm="6" md="4" class="p-2">
                     <TextContent class="p-3 maxHeight">
                         <h4>Events Submitted</h4>
                         <p>TODO</p>
                     </TextContent>
                 </b-col>
-                <b-col>
+                <b-col sm="6" md="4" class="p-2">
                     <TextContent class="p-3 maxHeight">
                         <h4>Player Retention</h4>
                         <p>TODO - Account activity after 1 week of account creation</p>
