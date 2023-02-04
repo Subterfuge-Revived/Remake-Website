@@ -9,7 +9,6 @@ import Login from '../pages/Login.vue';
 import Account from '../pages/Account.vue';
 import Admin from '../pages/Admin.vue';
 import Lobby from '../pages/Lobby.vue';
-import { config } from 'chai';
 
 Vue.use(VueRouter);
 
@@ -18,42 +17,42 @@ const router = new VueRouter({
   base: config.BASE_URL,
   routes: [
     {
-      path: '/',
+      path: config.BASE_URL + '',
       name: 'home',
       component: Home
     },
     {
-      path: '/about',
+      path: config.BASE_URL + 'about',
       name: 'about',
       component: About
     },
     {
-      path: '/participate',
+      path: config.BASE_URL + 'participate',
       name: 'participate',
       component: GetInvolved
     },
     {
-      path: '/blog',
+      path: config.BASE_URL + 'blog',
       name: 'blog',
       component: DevBlog
     },
     {
-      path: '/login',
+      path: config.BASE_URL + 'login',
       name: 'login',
       component: Login
     },
     {
-      path: '/account',
+      path: config.BASE_URL + 'account',
       name: 'account',
       component: Account
     },
     {
-      path: '/lobby',
+      path: config.BASE_URL + 'lobby',
       name: 'lobby',
       component: Lobby
     },
     {
-      path: '/admin',
+      path: config.BASE_URL + 'admin',
       name: 'admin',
       component: Admin
     }
