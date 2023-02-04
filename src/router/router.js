@@ -17,42 +17,42 @@ const router = new VueRouter({
   base: config.BASE_URL,
   routes: [
     {
-      path: config.BASE_URL + '',
+      path: '/',
       name: 'home',
       component: Home
     },
     {
-      path: config.BASE_URL + 'about',
+      path: '/about',
       name: 'about',
       component: About
     },
     {
-      path: config.BASE_URL + 'participate',
+      path: '/participate',
       name: 'participate',
       component: GetInvolved
     },
     {
-      path: config.BASE_URL + 'blog',
+      path: '/blog',
       name: 'blog',
       component: DevBlog
     },
     {
-      path: config.BASE_URL + 'login',
+      path: '/login',
       name: 'login',
       component: Login
     },
     {
-      path: config.BASE_URL + 'account',
+      path: '/account',
       name: 'account',
       component: Account
     },
     {
-      path: config.BASE_URL + 'lobby',
+      path: '/lobby',
       name: 'lobby',
       component: Lobby
     },
     {
-      path: config.BASE_URL + 'admin',
+      path: '/admin',
       name: 'admin',
       component: Admin
     }
