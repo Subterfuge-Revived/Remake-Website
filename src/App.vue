@@ -12,25 +12,26 @@
 import navbar from "./components/global/navbar.vue";
 import axios from 'axios';
 
-axios.interceptors.response.use(
-  (success) => {
-    return success;
-  },
-  (error) => {
-    this.$bvToast.toast(
-      error, {
-        title: 'Error sending request to server.',
-        toaster: 'b-toaster-bottom-right',
-        variant: 'danger',
-        solid: true,
-      }
-    );
-    return Promise.reject(error);
-  }
-)
-
 export default {
-    components: { navbar }
+    components: { navbar },
+    created() {
+      axios.interceptors.response.use(
+        (success) => {
+          return success;
+        },
+        (error) => {
+          this.$bvToast.toast(
+            error.message, {
+              title: 'Error sending request to server.',
+              toaster: 'b-toaster-bottom-right',
+              variant: 'danger',
+              solid: true,
+            }
+          );
+          return Promise.reject(error);
+        }
+      )
+    }
 }
 </script>
 

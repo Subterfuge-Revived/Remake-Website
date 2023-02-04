@@ -2,7 +2,7 @@
     <div>
         <Hero class="no-bg">
             <template slot="title">We are subterfuge</template>
-            <template slot="description">This project is an <a href="/participate">open-sourced</a> initiative to revitalize <a href="http://subterfuge-game.com/">Subterfuge</a>, a week-long game of strategy and diplomacy.
+            <template slot="description">This project is an <a href="https://github.com/Subterfuge-Revived">open-sourced</a> initiative to revitalize <a href="http://subterfuge-game.com/">Subterfuge</a>, a week-long game of strategy and diplomacy.
         Subterfuge plays out in real-time over a week, allowing players to form alliances, plan attacks, and assault their enemies. Our goal with this
         project is to create a game that takes the subterfuge gameplay and builds upon it. The remake will provide some much needed bug fixes while also adding customization and new features to keep the game unique.</template>
         </Hero>
